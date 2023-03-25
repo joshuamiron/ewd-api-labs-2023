@@ -8,7 +8,10 @@ const createRouter = (dependencies) => {
     router.route('/')
         .post(accountsController.createAccount);
 
-        router.route('/')
+    router.route('/:id')
+        .put(accountsController.updateAccount);
+
+    router.route('/')
         .get(accountsController.listAccounts);
 
     router.route('/:id')
