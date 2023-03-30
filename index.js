@@ -5,6 +5,7 @@ import createMoviesRouter from './src/movies/routes';
 import createAccountsRouter  from './src/accounts/routes';
 import buildDependencies from "./src/config/dependencies";
 import db from './src/config/db';
+import errorHandler from './src/utils/ErrorHandler';
 
 dotenv.config();
 
@@ -27,3 +28,5 @@ app.use('/api/accounts', createAccountsRouter (dependencies));
 app.listen(port, () => {
   console.info(`Server running at ${port}`);
 });
+
+app.use(errorHandler);

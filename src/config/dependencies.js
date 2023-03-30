@@ -1,9 +1,11 @@
 import AccountsRepositoryInMemory from '../accounts/repositories/InMemoryRepository';
 import AccountsRepositoryMongo from '../accounts/repositories/MongoAccountRepository';
 //The import statement's path for AccountRepositoryMongo (above) is wrong in the example code in the lab
+import AccountValidators from '../accounts/validators'
 
 const buildDependencies = () => {
   const dependencies = {
+    validators: AccountValidators
   };
 
   if (process.env.DATABASE_DIALECT === "in-memory") {
