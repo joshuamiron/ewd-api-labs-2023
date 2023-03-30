@@ -1,4 +1,5 @@
 import Account from '../entities/Account';
+//The import statement's path for ../entities/Account (above) is wrong in the example code in the lab
 import mongoose from 'mongoose';
 import AccountRepository from './Repository';
 

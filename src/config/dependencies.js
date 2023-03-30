@@ -1,5 +1,6 @@
 import AccountsRepositoryInMemory from '../accounts/repositories/InMemoryRepository';
 import AccountsRepositoryMongo from '../accounts/repositories/MongoAccountRepository';
+//The import statement's path for AccountRepositoryMongo (above) is wrong in the example code in the lab
 
 const buildDependencies = () => {
   const dependencies = {
