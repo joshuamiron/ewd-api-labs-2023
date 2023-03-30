@@ -15,7 +15,6 @@ export default (dependencies) => {
     const updateAccount = async (request, response, next) => {
         // Input
         const id = request.params.id;
-        // TODO - You implement the rest
         const {firstName, lastName, email, password} = request.body;
          // Treatment
          const account = await accountService.updateAccount(id, firstName, lastName, email, password, dependencies);
@@ -51,11 +50,38 @@ export default (dependencies) => {
         }
     };
 
+    const addFavourite = async (request, response, next) => {
+        try {
+            const { movieId } = request.body;
+            const id = request.params.id;
+            const account = await accountService.addFavourite(id, movieId, dependencies);
+            response.status(200).json(account);
+        } catch (err) {
+            next(new Error(`Invalid Data ${err.message}`));
+        }
+    };
+
+    const getFavourites = async (request, response, next) => {
+        try {
+            const id = request.params.id;
+            const favourites = await accountService.getFavourites(id, dependencies);
+            response.status(200).json(favourites);
+        } catch (err) {
+            next(new Error(`Invalid Data ${err.message}`));
+        }
+    };
+
+
+// ..code as before
+
+
     return {
         createAccount,
         updateAccount,
         getAccount,
         listAccounts,
-        authenticateAccount
+        authenticateAccount,
+        addFavourite,
+        getFavourites
     };
 };

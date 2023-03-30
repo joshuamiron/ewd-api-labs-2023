@@ -29,10 +29,25 @@ export default {
   getAccount: (accountId, {accountsRepository}) => {
     return accountsRepository.get(accountId);
   },
+
   find: ({accountsRepository})=>{
     return accountsRepository.find();
   },
+
   findByEmail: (email, {accountsRepository})=>{
     return accountsRepository.getByEmail(email);
+  },
+
+  getFavourites: async (accountId, { accountsRepository }) => {
+    const account = await accountsRepository.get(accountId);
+    return account.favourites;
+  },
+  
+  addFavourite: async (accountId, movieId, { accountsRepository }) => {
+    const account = await accountsRepository.get(accountId);
+    account.favourites.push(movieId);
+    return await accountsRepository.merge(account);
+
   }
+
 };
