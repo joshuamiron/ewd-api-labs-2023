@@ -20,6 +20,9 @@ const createRouter = (dependencies) => {
     router.route('/:id')
         .get(accountsController.getAccount);
 
+    router.route('/security/token')
+        .post(accountsController.authenticateAccount);
+
     return router;
 };
 export default createRouter;
