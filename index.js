@@ -19,8 +19,6 @@ const dependencies = buildDependencies();
 
 app.use(express.json());
 
-//app.use('/api/', moviesRouter);
-//app.use('/api/movies', moviesRouter);
 app.use('/api/movies', createMoviesRouter(dependencies));
 
 app.use('/api/accounts', createAccountsRouter (dependencies));

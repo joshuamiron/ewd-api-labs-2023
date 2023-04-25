@@ -71,10 +71,6 @@ export default (dependencies) => {
         }
     };
 
-
-// ..code as before
-
-
     return {
         createAccount,
         updateAccount,
