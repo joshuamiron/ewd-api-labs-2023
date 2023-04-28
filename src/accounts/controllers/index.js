@@ -20,7 +20,7 @@ export default (dependencies) => {
          const account = await accountService.updateAccount(id, firstName, lastName, email, password, dependencies);
          // Output
          response.status(200).json(account);
-         console.log("updateAccount in contollers called");
+         console.log("updateAccount in controllers called");
     };
 
     const getAccount = async (request, response, next) => {
@@ -71,6 +71,24 @@ export default (dependencies) => {
         }
     };
 
+    const verify = async (request, response, next) => {
+        try { 
+        // Input
+        const authHeader = request.headers.authorization;
+
+        // Treatment
+        const accessToken = authHeader.split(" ")[1];
+        const user = await accountService.verifyToken(accessToken, dependencies);
+
+        // Output
+        next();
+    } catch(err) {
+        //Token Verification Failed
+        next(new Error(`Verification Failed ${err.message}`));
+        response.status(401).json({ message: 'Unauthorised' });
+        }
+    };
+
     return {
         createAccount,
         updateAccount,
@@ -78,6 +96,7 @@ export default (dependencies) => {
         listAccounts,
         authenticateAccount,
         addFavourite,
-        getFavourites
+        getFavourites,
+        verify
     };
 };
