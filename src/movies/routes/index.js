@@ -8,8 +8,8 @@ const createMoviesRouter = (dependencies) => {
     const moviesController = MoviesController(dependencies);
     const accountsController = AccountsController(dependencies); //ADD THIS: Create accountsController with dependencies
 
-    //router.route('/*')
-    //    .all(accountsController.verify); //ADD THIS: require token for all routes
+    router.route('/*')
+        .all(accountsController.verify); //ADD THIS: require token for all routes
     
     router.route('/:id')
         .get(accountsController.verify, moviesController.getMovie);
