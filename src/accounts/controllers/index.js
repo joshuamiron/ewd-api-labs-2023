@@ -44,6 +44,7 @@ export default (dependencies) => {
     const authenticateAccount = async (request, response, next) => {
         try {
             const { email, password } = request.body;
+            console.log(request.body);
             const token = await accountService.authenticate(email, password, dependencies);
             response.status(200).json({ token: `BEARER ${token}` });
             console.log("authenticateAccount in accounts/controllers called and succeeded");
