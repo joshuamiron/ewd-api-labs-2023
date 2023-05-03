@@ -1,6 +1,5 @@
 import AccountsRepositoryInMemory from '../accounts/repositories/InMemoryRepository';
 import AccountsRepositoryMongo from '../accounts/repositories/MongoAccountRepository';
-//The import statement's path for AccountRepositoryMongo (above) is wrong in the example code in the lab
 import AccountValidators from '../accounts/validators';
 //import Authenticator from '../accounts/security/simple';
 import Authenticator from '../accounts/security/BCryptAuthenticator';
@@ -18,7 +17,7 @@ const buildDependencies = () => {
     dependencies.tokenManager = new TokenManager();
 
   } else if (process.env.DATABASE_DIALECT === "mongo") {
-//    throw new Error('Add Mongo Support');
+    //    throw new Error('Add Mongo Support');
     dependencies.accountsRepository = new AccountsRepositoryMongo();
     dependencies.tokenManager = new TokenManager();
 

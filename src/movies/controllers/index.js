@@ -9,6 +9,7 @@ export default (dependencies) => {
         const movie = await moviesService.getMovie(movieId, dependencies);
         // Output
         response.status(200).json(movie);
+        console.log("getMovie in movies/controllers called");
     };
     const find = async (request, response, next) => {
         // Input
