@@ -82,13 +82,13 @@ export default (dependencies) => {
             // Treatment
             const accessToken = authHeader.split(" ")[1];
             const user = await accountService.verifyToken(accessToken, dependencies);
-            console.log("verify in controllers called and succeeded");
+            console.log("verify in accounts/controllers called and succeeded");
             // Output
             next();
         } catch (err) {
             //Token Verification Failed
             next(new Error(`Verification Failed ${err.message}`));
-            console.log("verify in controllers called and failed");
+            console.log("verify in accounts/controllers called and failed");
         }
     };
 

@@ -11,13 +11,14 @@ export default (dependencies) => {
         response.status(200).json(movie);
         console.log("getMovie in movies/controllers called");
     };
-    const find = async (request, response, next) => {
+    const getMovies = async (request, response, next) => {
         // Input
         const query = request.query;
         // Treatment
-        const movies = await moviesService.find(query, dependencies);
+        const movies = await moviesService.getMovies(query, dependencies);
         // Output
         response.status(200).json(movies);
+        console.log("getMovies in movies/controllers called");
     };
     const getUpcomingMovies = async (request, response, next) => {
         // Input
@@ -30,7 +31,7 @@ export default (dependencies) => {
 
     return {
         getMovie,
-        find,
+        getMovies,
         getUpcomingMovies,
     };
 };
