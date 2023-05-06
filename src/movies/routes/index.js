@@ -11,12 +11,15 @@ const createMoviesRouter = (dependencies) => {
     //router.route('/*')
     //    .all(accountsController.verify); //ADD THIS: require token for all routes
 
-    router.route('/:id')
-        //   .get(accountsController.verify, moviesController.getMovie);
-         .get(moviesController.getMovie);
-
     router.route('/')
         .get(moviesController.getMovies);
+
+    router.route('/:id')
+        //   .get(accountsController.verify, moviesController.getMovie);
+        .get(moviesController.getMovie);
+
+    router.route('/genres')
+        .get(moviesController.getGenres);
 
     router.route('/upcoming')
         .get(moviesController.getUpcomingMovies);

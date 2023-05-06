@@ -1,13 +1,14 @@
 import express from 'express';
-import {movies, movieReviews, movieDetails} from './moviesData';
+import {movies, movieReviews, movieDetails} from './moviesData.js';
 import {genres} from './movieGenres';
 import uniqid from 'uniqid';
 
 const router = express.Router();
 
 //router.get('/movies', (req, res) => {
-router.get('/', (req, res) => {
+router.get('/movies', (req, res) => {
         res.json(movies);
+        console.log("movies called in index.js");
 });
 
 router.get('/genres', (req, res) => {
@@ -16,7 +17,7 @@ router.get('/genres', (req, res) => {
 
 //Get movie details
 //router.get('/movies/:id', (req, res) => {
-router.get('/:id', (req, res) => {
+router.get('/movies/:id', (req, res) => {
         const id = parseInt(req.params.id);
     if (movieDetails.id == id) {
         res.status(200).json(movieDetails);
