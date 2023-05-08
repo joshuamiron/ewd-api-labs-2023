@@ -18,7 +18,6 @@ export default {
   },
 
   updateAccount: async (id, firstName, lastName, email, password, { accountsRepository, authenticator }) => {
-    // TODO - you implement the rest
     password = await authenticator.encrypt(password);
     const account = await accountsRepository.get(id);
     account.firstName = firstName;
