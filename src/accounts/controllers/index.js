@@ -3,13 +3,19 @@ import accountService from "../services";
 export default (dependencies) => {
 
     const createAccount = async (request, response, next) => {
-        // Input
-        const { firstName, lastName, email, password } = request.body;
-        // Treatment
-        const account = await accountService.registerAccount(firstName, lastName, email, password, dependencies);
-        // Output
-        response.status(201).json(account);
-        console.log("createAccount in accounts/controllers called");
+        try {
+            // Input
+            const { firstName, lastName, email, password } = request.body;
+            // Treatment
+            const account = await accountService.registerAccount(firstName, lastName, email, password, dependencies);
+            // Output
+            response.status(201).json(account);
+            console.log("createAccount in accounts/controllers called and succeeded");
+        } catch (error) {
+            // response.status(409).json({ message: error.message });
+            response.status(409).json({ message: "Account already exists." });
+            console.log("createAccount in accounts/controllers called and failed");
+        }
     };
 
     const getAccount = async (request, response, next) => {

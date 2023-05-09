@@ -17,6 +17,18 @@ export default {
     return accountsRepository.persist(account);
   },
 
+  // Trying to catch duplicate account creation, which crashes the API
+/*  registerAccount: async (firstName, lastName, email, password, { accountsRepository, authenticator }) => {
+    // Check if account already exists
+    const existingAccount = await accountsRepository.findByEmail(email);
+    if (existingAccount) {
+      throw new Error('Account already exists');
+    }
+    password = await authenticator.encrypt(password);
+    const account = new Account(undefined, firstName, lastName, email, password);
+    return accountsRepository.persist(account);
+  },*/
+
   updateAccount: async (id, firstName, lastName, email, password, { accountsRepository, authenticator }) => {
     password = await authenticator.encrypt(password);
     const account = await accountsRepository.get(id);
