@@ -17,6 +17,15 @@ export default {
     return response.data;
   },
 
+  getSimilarMovies: async (id) => {
+    console.log("getSimilarMovies in movies/services called");
+    console.log(response.data);
+    const response = await axios.get(
+      `https://api.themoviedb.org/3/movie/${id}/similar?api_key=${process.env.TMDB_KEY}`
+    );
+    return response.data;
+  },
+
   getGenres: async (query) => {
     console.log("getGenres in movies/services called");
     const response = await axios.get(
@@ -58,6 +67,8 @@ export default {
     );
     return response.data;
   },
+
+ 
 
   getPopularMovies: async (query, page) => {
     console.log("getPopluarMovies in movies/services called");

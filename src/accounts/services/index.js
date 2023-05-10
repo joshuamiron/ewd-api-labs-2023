@@ -56,7 +56,20 @@ export default {
     return account.favourites;
   },
 
-  addFavourite: async (accountId, movieId, { accountsRepository }) => {
+  /*addFavourite: async (accountId, movieId, { accountsRepository }) => {
+    const account = await accountsRepository.get(accountId);
+    if (!account.favourites.includes(movieId)) {
+      account.favourites.push(movieId);
+      return await accountsRepository.merge(account);
+    } else {
+      return account;
+    }
+  },*/
+
+  addFavourite: async (movieId, { accountsRepository, authenticator }) => {
+    const authenticatedUser = authenticator.getAuthenticatedUser();
+    const accountId = authenticatedUser.accountId;
+    console.log(accountId);
     const account = await accountsRepository.get(accountId);
     if (!account.favourites.includes(movieId)) {
       account.favourites.push(movieId);

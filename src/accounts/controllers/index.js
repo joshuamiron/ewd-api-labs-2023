@@ -64,6 +64,7 @@ export default (dependencies) => {
         try {
             const { movieId } = request.body;
             const id = request.params.id;
+            //const accountId = request.user.accountId;
             const account = await accountService.addFavourite(id, movieId, dependencies);
             response.status(200).json(account);
         } catch (err) {

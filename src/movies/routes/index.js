@@ -15,8 +15,8 @@ const createMoviesRouter = (dependencies) => {
         .get(moviesController.getMovies);
 
     router.route('/:id')
-          // .get(accountsController.verify, moviesController.getMovie);
-         .get(moviesController.getMovie);
+        // .get(accountsController.verify, moviesController.getMovie);
+        .get(moviesController.getMovie);
 
     router.route('/genres')
         .get(moviesController.getGenres);
@@ -26,12 +26,15 @@ const createMoviesRouter = (dependencies) => {
 
     router.route('/:id/reviews')
         .get(moviesController.getMovieReviews);
-        
+
     router.route('/upcoming')
         .get(moviesController.getUpcomingMovies);
 
     router.route('/:id/credits')
         .get(moviesController.getMovieCast);
+
+    router.route('/:id/similar')
+        .get(moviesController.getSimilarMovies);
 
     router.route('/popular')
         .get(moviesController.getPopularMovies);
