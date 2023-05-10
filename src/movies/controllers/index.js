@@ -24,11 +24,11 @@ export default (dependencies) => {
     const getGenres = async (request, response, next) => {
         console.log("getGenres in movies/controllers called");
         // Input
-        const query = request.query;
+        //const query = request.query;
         // Treatment
-        const movies = await moviesService.getGenres(query, dependencies);
+        const genres = await moviesService.getGenres();
         // Output
-        response.status(200).json(movies);
+        response.status(200).json(genres);
     };
     const getMovieImages = async (request, response, next) => {
         console.log("getMovieImages in movies/controllers called");

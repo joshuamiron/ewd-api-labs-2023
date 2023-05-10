@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios from "axios";
 
 export default {
   getMovies: async (query, page) => {
@@ -26,12 +26,17 @@ export default {
     return response.data;
   },
 
-  getGenres: async (query) => {
+  getGenres: async () => {
     console.log("getGenres in movies/services called");
-    const response = await axios.get(
-      `https://api.themoviedb.org/3/genre/movie/list?api_key=${process.env.TMDB_KEY}&language=en-US${query}`
-    );
-    return response.data;
+    try {
+      const response = await axios.get(
+        `https://api.themoviedb.org/3/genre/movie/list?api_key=${process.env.TMDB_KEY}&language=en-US`
+      );
+      return response.data;
+    } catch (error) {
+      console.error("Error in getGenres:", error);
+      throw error;
+    }
   },
 
   getMovieImages: async (id) => {
@@ -68,8 +73,6 @@ export default {
     return response.data;
   },
 
- 
-
   getPopularMovies: async (query, page) => {
     console.log("getPopluarMovies in movies/services called");
     const response = await axios.get(
@@ -82,7 +85,6 @@ export default {
     console.log("getTrendingMovies in movies/services called");
     const response = await axios.get(
       `https://api.themoviedb.org/3/trending/movie/week?api_key=${process.env.TMDB_KEY}&language=en-US&page=${page}&${query}`
-
     );
     return response.data;
   },
