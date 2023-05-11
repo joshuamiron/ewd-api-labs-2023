@@ -11,7 +11,7 @@ const createTVShowsRouter = (dependencies) => {
     //router.route('/*')
     //    .all(accountsController.verify); //ADD THIS: require token for all routes
 
-    router.route('/')
+    router.route('/shows')
         .get(tvShowsController.getTVShows);
 
     router.route('/:id')

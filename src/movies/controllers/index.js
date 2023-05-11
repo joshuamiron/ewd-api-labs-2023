@@ -19,16 +19,6 @@ export default (dependencies) => {
         const movies = await moviesService.getMovies(query, dependencies);
         // Output
         response.status(200).json(movies);
-
-    };
-    const getGenres = async (request, response, next) => {
-        console.log("getGenres in movies/controllers called");
-        // Input
-        //const query = request.query;
-        // Treatment
-        const genres = await moviesService.getGenres();
-        // Output
-        response.status(200).json(genres);
     };
     const getMovieImages = async (request, response, next) => {
         console.log("getMovieImages in movies/controllers called");
@@ -39,12 +29,48 @@ export default (dependencies) => {
         // Output
         response.status(200).json(movie);
     };
-    const getMovieReviews = async (request, response, next) => {
-        console.log("getMovieReviews in movies/controllers called");
+    const getUpcomingMovies = async (request, response, next) => {
+        console.log("getUpcomingMovies in movies/controllers called");
+        // Input
+        const query = request.query;
+        // Treatment
+        const movies = await moviesService.getUpcomingMovies(query, dependencies);
+        // Output
+        response.status(200).json(movies);
+    };
+    const getPopularMovies = async (request, response, next) => {
+        console.log("getPopularMovies in movies/controllers called");
+        // Input
+        const query = request.query;
+        // Treatment
+        const movies = await moviesService.getPopularMovies(query, dependencies);
+        // Output
+        response.status(200).json(movies);
+    };
+    const getTrendingMovies = async (request, response, next) => {
+        console.log("getTrendingMovies in movies/controllers called");
+        // Input
+        const query = request.query;
+        // Treatment
+        const movies = await moviesService.getTrendingMovies(query, dependencies);
+        // Output
+        response.status(200).json(movies);
+    };
+    const getGenres = async (request, response, next) => {
+        console.log("getGenres in movies/controllers called");
+        // Input
+        //const query = request.query;
+        // Treatment
+        const genres = await moviesService.getGenres();
+        // Output
+        response.status(200).json(genres);
+    };
+    const getMovieCast = async (request, response, next) => {
+        console.log("getMovieCast in movies/controllers called");
         // Input
         const movieId = request.params.id;
         // Treatment
-        const movie = await moviesService.getMovieReviews(movieId, dependencies);
+        const movie = await moviesService.getMovieCast(movieId, dependencies);
         // Output
         response.status(200).json(movie);
     };
@@ -57,44 +83,31 @@ export default (dependencies) => {
         // Output
         response.status(200).json(movie);
     };
-    
-    const getUpcomingMovies = async (request, response, next) => {
-        console.log("getUpcomingMovies in movies/controllers called");
-        // Input
-        const query = request.query;
-        // Treatment
-        const movies = await moviesService.getUpcomingMovies(query, dependencies);
-        // Output
-        response.status(200).json(movies);
-    };
-    const getMovieCast = async (request, response, next) => {
-        console.log("getMovieCast in movies/controllers called");
+    const getRecommendedMovies = async (request, response, next) => {
+        console.log("getRecommendedMovies in movies/controllers called");
         // Input
         const movieId = request.params.id;
         // Treatment
-        const movie = await moviesService.getMovieCast(movieId, dependencies);
+        const movie = await moviesService.getRecommendedMovies(movieId, dependencies);
         // Output
         response.status(200).json(movie);
     };
-    const getPopularMovies = async (request, response, next) => {
-        console.log("getPopularMovies in movies/controllers called");
-        // Input
-        const query = request.query;
-        // Treatment
-        const movies = await moviesService.getPopularMovies(query, dependencies);
-        // Output
-        response.status(200).json(movies);
-    };
-    const getTrendingMovies = async (request, response, next) => {
-        // Input
-        const query = request.query;
-        // Treatment
-        const movies = await moviesService.getTrendingMovies(query, dependencies);
-        // Output
-        console.log("getTrendingMovies in movies/controllers called");
-        response.status(200).json(movies);
-    };
+    //--------------------Needs update--------------------
+    //--------------------Needs update--------------------
 
+    const getMovieReviews = async (request, response, next) => {
+        console.log("getMovieReviews in movies/controllers called");
+        // Input
+        const movieId = request.params.id;
+        // Treatment
+        const movie = await moviesService.getMovieReviews(movieId, dependencies);
+        // Output
+        response.status(200).json(movie);
+    };
+   
+    
+    
+    
     return {
         getMovie,
         getMovies,
@@ -106,5 +119,6 @@ export default (dependencies) => {
         getPopularMovies,
         getTrendingMovies,
         getSimilarMovies,
+        getRecommendedMovies,
     };
 };
