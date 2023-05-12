@@ -63,11 +63,13 @@ export default (dependencies) => {
     const addFavourite = async (request, response, next) => {
         try {
             const { movieId } = request.body;
-            const id = request.params.id;
-            //const accountId = request.user.accountId;
-            const account = await accountService.addFavourite(id, movieId, dependencies);
+            const accountId = request.user.accountId;
+            console.log("Received request to add favourite:", {movieId, accountId,});
+            const account = await accountService.addFavourite(accountId, movieId, dependencies);
+            console.log("Favourite added successfully:", account);
             response.status(200).json(account);
         } catch (err) {
+            console.log("Error adding favourite:", err.message);
             next(new Error(`Invalid Data ${err.message}`));
         }
     };
@@ -107,6 +109,6 @@ export default (dependencies) => {
         authenticateAccount,
         addFavourite,
         getFavourites,
-        verify
+        verify,
     };
 };

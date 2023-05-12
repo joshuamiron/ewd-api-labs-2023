@@ -113,12 +113,12 @@ export default (dependencies) => {
         getMovies,
         getGenres,
         getMovieImages,
-        getMovieReviews,
         getUpcomingMovies,
         getMovieCast,
         getPopularMovies,
         getTrendingMovies,
         getSimilarMovies,
         getRecommendedMovies,
+        getMovieReviews,
     };
 };

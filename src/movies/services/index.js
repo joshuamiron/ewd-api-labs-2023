@@ -136,18 +136,11 @@ export default {
   //----------------------------
   //----------------------------
 
-
-
- 
-
-  
-
-  getMovieReviews: async (id, query) => {
+  getMovieReviews: async (id) => {
     console.log(id);
-    console.log(query);
     console.log("getMovieReviews in movies/services called");
     const response = await axios.get(
-      `https://api.themoviedb.org/3/movie/${id}/reviews?api_key=${process.env.TMDB_KEY}&${query}`
+      `https://api.themoviedb.org/3/movie/${id}/reviews?api_key=${process.env.TMDB_KEY}`
     );
     return response.data;
   },

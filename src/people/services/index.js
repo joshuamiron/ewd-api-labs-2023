@@ -19,7 +19,6 @@ export default {
     return response.data;
   },
   
-
   getPopularPeople: async (query, page) => {
     console.log("getPopularPeople in people/services called");
     const params = {
@@ -53,14 +52,6 @@ export default {
     );
     return response.data;
   },
-
-  /*getPersonCredits: async (id) => {
-    console.log("getPersonCredits in people/services called");
-    const response = await axios.get(
-      `https://api.themoviedb.org/3/person/${id}/movie_credits?api_key=${process.env.TMDB_KEY}`
-    );
-    return response.data;
-  },*/
 
   getPersonCredits: async (id) => {
     console.log("getPersonCredits in people/services called");

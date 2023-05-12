@@ -24,22 +24,14 @@ const createMoviesRouter = (dependencies) => {
   // router.route("/:id").get(accountsController.verify, moviesController.getMovie);
 
   router.route("/:id/images").get(moviesController.getMovieImages);
-  
+
   router.route("/:id/credits").get(moviesController.getMovieCast);
 
   router.route("/:id/similar").get(moviesController.getSimilarMovies);
 
   router.route("/:id/recommended").get(moviesController.getRecommendedMovies);
 
-//----------------------------
-//----------------------------
-
-  
-//  router.route("/reviews/:id").get(moviesController.getMovieReviews);
-
-
-
-
+  router.route("/:id/reviews").get(moviesController.getMovieReviews);
 
   return router;
 };

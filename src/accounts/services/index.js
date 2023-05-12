@@ -56,7 +56,7 @@ export default {
     return account.favourites;
   },
 
-  /*addFavourite: async (accountId, movieId, { accountsRepository }) => {
+  addFavourite: async (accountId, movieId, { accountsRepository }) => {
     const account = await accountsRepository.get(accountId);
     if (!account.favourites.includes(movieId)) {
       account.favourites.push(movieId);
@@ -64,9 +64,9 @@ export default {
     } else {
       return account;
     }
-  },*/
+  },
 
-  addFavourite: async (movieId, { accountsRepository, authenticator }) => {
+  /*addFavourite: async (movieId, { accountsRepository, authenticator }) => {
     const authenticatedUser = authenticator.getAuthenticatedUser();
     const accountId = authenticatedUser.accountId;
     console.log(accountId);
@@ -77,7 +77,7 @@ export default {
     } else {
       return account;
     }
-  },
+  },*/
 
   verifyToken: async (token, { accountsRepository, tokenManager }) => {
     const decoded = await tokenManager.decode(token);
