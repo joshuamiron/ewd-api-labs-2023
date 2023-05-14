@@ -32,17 +32,18 @@ export default class extends AccountRepository {
         return accountEntity;
     }
 
-    async remove(userId) {
+    async removeById(userId) {
         return this.model.findOneAndDelete(userId);
     }
 
-    async get(userId) {
+    async getById(userId) {
         const result = await this.model.findById(userId);
         const { id, firstName, lastName, email, password, favourites, playlist } = result;
         return new Account(id, firstName, lastName, email, password, favourites, playlist);
     }
 
     async getByEmail(userEmail) {
+        console.log("getByEmail in MongoAccountRepo: " + userEmail.toLowerCase());
         const result = await this.model.findOne({ email: userEmail.toLowerCase() });
         return new Account(result.id, result.firstName, result.lastName, result.email, result.password, result.favourites, result.playlist);
     }

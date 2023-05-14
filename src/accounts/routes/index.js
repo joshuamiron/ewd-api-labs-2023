@@ -10,18 +10,28 @@ const createRouter = (dependencies) => {
 
   router.route("/").post(validationController.validateAccount, accountsController.createAccount);
 
-  router.route("/").get(accountsController.listAccounts);
+  router.route("/").get(accountsController.getAccounts);
 
   router.route("/security/token").post(accountsController.authenticateAccount);
 
-  router.route("/:id").put(accountsController.updateAccount);
+  router.route("/getaccount/:email").get(accountsController.getAccount);
 
-  router.route("/:id").get(accountsController.getAccount);
+  router.route("/users/:email").get(accountsController.getAccountByEmail);
 
+  //router.route("/:id").post(accountsController.getAccountById);
+
+
+
+  //--------------------------------------------------------------------------------
+  //--------------------------------------------------------------------------------
+
+ // router.route("/:id").put(accountsController.updateAccount);
+
+  //router.route("/:id/favourites").post(accountsController.addFavourite);
+
+ // router.route("/:id/favourites").get(accountsController.getFavourites);
 //  router.route("/:id/favourites").post(accountsController.addFavourite);
-  router.route("/:id/favourites").post(accountsController.addFavourite);
 
-  router.route("/:id/favourites").get(accountsController.getFavourites);
 
   return router;
 };

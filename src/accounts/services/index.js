@@ -1,7 +1,17 @@
 import Account from '../entities/Account';
 
 export default {
-  authenticate: async (email, password, { accountsRepository, authenticator, tokenManager }) => {
+  createAccount: async (firstName, lastName, email, password, { accountsRepository, authenticator }) => {
+    password = await authenticator.encrypt(password);
+    const account = new Account(undefined, firstName, lastName, email, password);
+    return accountsRepository.persist(account);
+  },
+  
+  getAccounts: ({ accountsRepository }) => {
+    return accountsRepository.find();
+  },
+
+  authenticateAccount: async (email, password, { accountsRepository, authenticator, tokenManager }) => {
     const account = await accountsRepository.getByEmail(email);
     const result = await authenticator.compare(password, account.password);
     if (!result) {
@@ -11,11 +21,34 @@ export default {
     return token;
   },
 
-  registerAccount: async (firstName, lastName, email, password, { accountsRepository, authenticator }) => {
-    password = await authenticator.encrypt(password);
-    const account = new Account(undefined, firstName, lastName, email, password);
-    return accountsRepository.persist(account);
+  getAccount: async (email, { accountsRepository, authenticator }) => {
+    console.log("getAccount in accounts/services called");
+    const account = await accountsRepository.getByEmail(email);
+    console.log(email);
+    console.log(account);
+    return account;
   },
+
+  updateAccount: async (id, firstName, lastName, email, password, { accountsRepository, authenticator }) => {
+    password = await authenticator.encrypt(password);
+    const account = await accountsRepository.get(id);
+    account.firstName = firstName;
+    account.lastName = lastName;
+    account.email = email;
+    account.password = password;
+    return accountsRepository.merge(account);
+  },
+
+  getAccountById: (accountId, { accountsRepository }) => {
+    return accountsRepository.getById(accountId);
+  },
+
+  getAccountByEmail: (email, { accountsRepository }) => {
+    return accountsRepository.getByEmail(email);.0
+  },
+
+  //-------------------------------------------------------------------------------------
+  //-------------------------------------------------------------------------------------
 
   // Trying to catch duplicate account creation, which crashes the API
 /*  registerAccount: async (firstName, lastName, email, password, { accountsRepository, authenticator }) => {
@@ -39,17 +72,10 @@ export default {
     return accountsRepository.merge(account);
   },
 
-  getAccount: (accountId, { accountsRepository }) => {
-    return accountsRepository.get(accountId);
-  },
 
-  find: ({ accountsRepository }) => {
-    return accountsRepository.find();
-  },
 
-  findByEmail: (email, { accountsRepository }) => {
-    return accountsRepository.getByEmail(email);
-  },
+  
+  
 
   getFavourites: async (accountId, { accountsRepository }) => {
     const account = await accountsRepository.get(accountId);
