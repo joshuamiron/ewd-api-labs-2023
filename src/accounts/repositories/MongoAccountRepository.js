@@ -28,7 +28,6 @@ export default class extends AccountRepository {
     async merge(accountEntity) {
         const { id, firstName, lastName, email, password, favourites, playlist } = accountEntity;
         await this.model.findByIdAndUpdate(id, { firstName, lastName, email, password, favourites, playlist });
-        console.log({ id, firstName, lastName, email, password, favourites, playlist });
         return accountEntity;
     }
 
@@ -43,7 +42,6 @@ export default class extends AccountRepository {
     }
 
     async getByEmail(userEmail) {
-        console.log("getByEmail in MongoAccountRepo: " + userEmail.toLowerCase());
         const result = await this.model.findOne({ email: userEmail.toLowerCase() });
         return new Account(result.id, result.firstName, result.lastName, result.email, result.password, result.favourites, result.playlist);
     }

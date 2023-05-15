@@ -14,24 +14,18 @@ const createRouter = (dependencies) => {
 
   router.route("/security/token").post(accountsController.authenticateAccount);
 
-  router.route("/getaccount/:email").get(accountsController.getAccount);
-
-  router.route("/users/:email").get(accountsController.getAccountByEmail);
-
-  //router.route("/:id").post(accountsController.getAccountById);
-
-
+  router.route("/getaccount/:email").get(accountsController.getAccountByEmail);
 
   //--------------------------------------------------------------------------------
   //--------------------------------------------------------------------------------
 
- // router.route("/:id").put(accountsController.updateAccount);
+  router.route("/:email/favourites").put(accountsController.addFavourite);
 
-  //router.route("/:id/favourites").post(accountsController.addFavourite);
+  // router.route("/getaccount/:id").get(accountsController.getAccountById);
 
- // router.route("/:id/favourites").get(accountsController.getFavourites);
-//  router.route("/:id/favourites").post(accountsController.addFavourite);
+  // router.route("/updateaccount:id").put(accountsController.updateAccount);
 
+  // router.route("/:id/favourites").get(accountsController.getFavourites);
 
   return router;
 };

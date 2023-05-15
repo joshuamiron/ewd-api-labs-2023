@@ -1,157 +1,158 @@
 import accountService from "../services";
 
 export default (dependencies) => {
+  const createAccount = async (request, response, next) => {
+    try {
+      // Input
+      const { firstName, lastName, email, password } = request.body;
+      // Treatment
+      const account = await accountService.createAccount(
+        firstName,
+        lastName,
+        email.toLowerCase(),
+        password,
+        dependencies
+      );
+      // Output
+      response.status(201).json(account);
+      console.log("createAccount in accounts/controllers called and succeeded");
+    } catch (error) {
+      //response.status(409).json({ message: error.message });
+      response.status(409).json({ message: "Account already exists." });
+      console.log("createAccount in accounts/controllers called and failed");
+    }
+  };
 
-    const createAccount = async (request, response, next) => {
-        try {
-            // Input
-            const { firstName, lastName, email, password } = request.body;
-            // Treatment
-            const account = await accountService.createAccount(firstName, lastName, email, password, dependencies);
-            // Output
-            response.status(201).json(account);
-            console.log("createAccount in accounts/controllers called and succeeded");
-        } catch (error) {
-            //response.status(409).json({ message: error.message });
-            response.status(409).json({ message: "Account already exists." });
-            console.log("createAccount in accounts/controllers called and failed");
-        }
-    };
+  const getAccounts = async (request, response, next) => {
+    // Treatment
+    const accounts = await accountService.getAccounts(dependencies);
+    // Output
+    response.status(200).json(accounts);
+    console.log("getAccounts in accounts/controllers called");
+  };
 
-    const getAccounts = async (request, response, next) => {
-        // Treatment
-        const accounts = await accountService.getAccounts(dependencies);
-        // Output
-        response.status(200).json(accounts);
-        console.log("getAccounts in accounts/controllers called");
-    };
+  const authenticateAccount = async (request, response, next) => {
+    try {
+      const { email, password } = request.body;
+      console.log(request.body);
+      const token = await accountService.authenticateAccount(
+        email,
+        password,
+        dependencies
+      );
+      response.status(200).json({ token: `BEARER ${token}` });
+      console.log(
+        "authenticateAccount in accounts/controllers called and succeeded"
+      );
+    } catch (error) {
+      response.status(401).json({ message: "Unauthorised" });
+      console.log(
+        "authenticateAccount in accounts/controllers called and failed"
+      );
+    }
+  };
 
-    const authenticateAccount = async (request, response, next) => {
-        try {
-            const { email, password } = request.body;
-            console.log(request.body);
-            const token = await accountService.authenticateAccount(email, password, dependencies);
-            response.status(200).json({ token: `BEARER ${token}` });
-            console.log("authenticateAccount in accounts/controllers called and succeeded");
-        } catch (error) {
-            response.status(401).json({ message: 'Unauthorised' });
-            console.log("authenticateAccount in accounts/controllers called and failed");
-        }
-    };
+  const getAccountByEmail = async (request, response, next) => {
+    console.log("getAccountByEmail in accounts/controllers called");
+    // Input
+    const email = request.params.email;
+    // Treatment
+    const account = await accountService.getAccountByEmail(email, dependencies);
+    console.log(account);
+    // Output
+    response.status(200).json(account);
+  };
+  
+  //--------------------------------------------------------------------------------
+  //--------------------------------------------------------------------------------
 
-    const getMovie = async (request, response, next) => {
-        console.log("getMovie in movies/controllers called");
-        // Input
-        const movieId = request.params.id;
-        // Treatment
-        const movie = await moviesService.getMovie(movieId, dependencies);
-        // Output
-        response.status(200).json(movie);
-    };
-    
+  const addFavourite = async (request, response, next) => {
+    console.log("Request body:", request.body);
+    try {
+     const email = request.params.email;
+     const { movieId } = request.body;
+      const account = await accountService.addFavourite(email, movieId, dependencies);
+      console.log("Favourites updated successfully:", account);
+      response.status(200).json(account);
+    } catch (err) {
+      console.log("Error adding favourite:", err.message);
+      next(new Error(`Invalid Data ${err.message}`));
+    }
+  };
 
-    const getAccount = async (request, response, next) => {
-        console.log("getAccount in accounts/controllers called");
-        // Input
-        const accountEmail = request.params.email;
-        // Treatment
-        const account = await accountService.getAccount(accountEmail, dependencies);
-        console.log(account);
-        // Output
-        response.status(200).json(account);
-    };
+  const getFavourites = async (request, response, next) => {
+    try {
+      const id = request.params.id;
+      const favourites = await accountService.getFavourites(id, dependencies);
+      response.status(200).json(favourites);
+    } catch (err) {
+      next(new Error(`Invalid Data ${err.message}`));
+    }
+  };
 
-    //--------------------------------------------------------------------------------
-    //--------------------------------------------------------------------------------
+  const getAccountById = async (request, response, next) => {
+    // input
+    const accountId = request.params.id;
+    // Treatment
+    const account = await accountService.getAccountById(
+      accountId,
+      dependencies
+    );
+    // Output
+    response.status(200).json(account);
+    console.log("getAccountById in accounts/controllers called");
+  };
 
-    const getAccountById = async (request, response, next) => {
-        // input
-        const accountId = request.params.id;
-        // Treatment
-        const account = await accountService.getAccountById(accountId, dependencies);
-        // Output
-        response.status(200).json(account);
-        console.log("getAccountById in accounts/controllers called");
-    };
 
-    const getAccountByEmail = async (request, response, next) => {
-        // input
-        const email = request.params;
-        console.log(request.body.email);
-        // Treatment
-        const user = await accountService.getAccountByEmail(email, dependencies);
-        // Output
-        response.status(200).json(user);
-        console.log(user);
-        console.log("getAccountByEmail in accounts/controllers called");
-    };
 
-    
-    
+  const updateAccount = async (request, response, next) => {
+    // Input
+    const id = request.params.id;
+    const { firstName, lastName, email, password } = request.body;
+    // Treatment
+    const account = await accountService.updateAccount(
+      id,
+      firstName,
+      lastName,
+      email,
+      password,
+      dependencies
+    );
+    // Output
+    response.status(200).json(account);
+    console.log("updateAccount in accounts/controllers called");
+  };
 
-   
-    const updateAccount = async (request, response, next) => {
-        // Input
-        const id = request.params.id;
-        const { firstName, lastName, email, password } = request.body;
-        // Treatment
-        const account = await accountService.updateAccount(id, firstName, lastName, email, password, dependencies);
-        // Output
-        response.status(200).json(account);
-        console.log("updateAccount in accounts/controllers called");
-    };
+  
 
-    const addFavourite = async (request, response, next) => {
-        try {
-            const { movieId } = request.body;
-            const accountId = request.user.accountId;
-            console.log("Received request to add favourite:", {movieId, accountId,});
-            const account = await accountService.addFavourite(accountId, movieId, dependencies);
-            console.log("Favourite added successfully:", account);
-            response.status(200).json(account);
-        } catch (err) {
-            console.log("Error adding favourite:", err.message);
-            next(new Error(`Invalid Data ${err.message}`));
-        }
-    };
+  
 
-    const getFavourites = async (request, response, next) => {
-        try {
-            const id = request.params.id;
-            const favourites = await accountService.getFavourites(id, dependencies);
-            response.status(200).json(favourites);
-        } catch (err) {
-            next(new Error(`Invalid Data ${err.message}`));
-        }
-    };
+  const verify = async (request, response, next) => {
+    try {
+      // Input
+      const authHeader = request.headers.authorization;
+      // Treatment
+      const accessToken = authHeader.split(" ")[1];
+      const user = await accountService.verifyToken(accessToken, dependencies);
+      console.log("verify in accounts/controllers called and succeeded");
+      // Output
+      next();
+    } catch (err) {
+      //Token Verification Failed
+      next(new Error(`Verification Failed ${err.message}`));
+      console.log("verify in accounts/controllers called and failed");
+    }
+  };
 
-    const verify = async (request, response, next) => {
-        try {
-            // Input
-            const authHeader = request.headers.authorization;
-            // Treatment
-            const accessToken = authHeader.split(" ")[1];
-            const user = await accountService.verifyToken(accessToken, dependencies);
-            console.log("verify in accounts/controllers called and succeeded");
-            // Output
-            next();
-        } catch (err) {
-            //Token Verification Failed
-            next(new Error(`Verification Failed ${err.message}`));
-            console.log("verify in accounts/controllers called and failed");
-        }
-    };
-
-    return {
-        createAccount,
-        getAccounts,
-        getAccount,
-        getAccountById,
-        getAccountByEmail,
-        updateAccount,
-        authenticateAccount,
-        addFavourite,
-        getFavourites,
-        verify,
-    };
+  return {
+    createAccount,
+    getAccounts,
+    getAccountByEmail,
+    getAccountById,
+    updateAccount,
+    authenticateAccount,
+    addFavourite,
+    getFavourites,
+    verify,
+  };
 };
