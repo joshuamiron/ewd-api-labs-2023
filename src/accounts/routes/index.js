@@ -12,20 +12,29 @@ const createRouter = (dependencies) => {
 
   router.route("/").get(accountsController.getAccounts);
 
+  // ---- Authenticate the user who is trying to log in
   router.route("/security/token").post(accountsController.authenticateAccount);
 
+  // ---- Get all an account's details, including favourites and playlists, via their email address
   router.route("/getaccount/:email").get(accountsController.getAccountByEmail);
 
-  //--------------------------------------------------------------------------------
-  //--------------------------------------------------------------------------------
+  // ---- Add or remove favourite movies
+  router.route("/updatefavourites/:email").put(accountsController.updateFavourites);
+  
+  // ---- Add or remove movies to playlist
+  router.route("/updateplaylist/:email").put(accountsController.updatePlaylist);
 
-  router.route("/:email/favourites").put(accountsController.addFavourite);
+  // ---- Add or remove favourite people
+  router.route("/updatefavouritepeople/:email").put(accountsController.updateFavouritePeople);
+
+  //--------------------------------------------------------------------------------
+  //--------------------------------------------------------------------------------
 
   // router.route("/getaccount/:id").get(accountsController.getAccountById);
 
   // router.route("/updateaccount:id").put(accountsController.updateAccount);
 
-  // router.route("/:id/favourites").get(accountsController.getFavourites);
+  // router.route("/favourites/:id").get(accountsController.getFavourites);
 
   return router;
 };

@@ -62,25 +62,53 @@ export default (dependencies) => {
     // Output
     response.status(200).json(account);
   };
-  
-  //--------------------------------------------------------------------------------
-  //--------------------------------------------------------------------------------
 
-  const addFavourite = async (request, response, next) => {
+  const updateFavourites = async (request, response, next) => {
     console.log("Request body:", request.body);
     try {
      const email = request.params.email;
      const { movieId } = request.body;
-      const account = await accountService.addFavourite(email, movieId, dependencies);
-      console.log("Favourites updated successfully:", account);
+      const account = await accountService.updateFavourites(email, movieId, dependencies);
+      console.log("Favourite movies updated successfully:", account);
       response.status(200).json(account);
     } catch (err) {
-      console.log("Error adding favourite:", err.message);
+      console.log("Error adding to favourite movies:", err.message);
       next(new Error(`Invalid Data ${err.message}`));
     }
   };
 
-  const getFavourites = async (request, response, next) => {
+  const updatePlaylist = async (request, response, next) => {
+    console.log("Request body:", request.body);
+    try {
+     const email = request.params.email;
+     const { movieId } = request.body;
+      const account = await accountService.updatePlaylist(email, movieId, dependencies);
+      console.log("Playlist updated successfully:", account);
+      response.status(200).json(account);
+    } catch (err) {
+      console.log("Error adding to playlist:", err.message);
+      next(new Error(`Invalid Data ${err.message}`));
+    }
+  };
+  
+  const updateFavouritePeople = async (request, response, next) => {
+    console.log("Request body:", request.body);
+    try {
+     const email = request.params.email;
+     const { person } = request.body;
+      const account = await accountService.updateFavouritePeople(email, person, dependencies);
+      console.log("Favourite people updated successfully:", account);
+      response.status(200).json(account);
+    } catch (err) {
+      console.log("Error adding to favourite people:", err.message);
+      next(new Error(`Invalid Data ${err.message}`));
+    }
+  };
+
+  //--------------------------------------------------------------------------------
+  //--------------------------------------------------------------------------------
+
+  /* const getFavourites = async (request, response, next) => {
     try {
       const id = request.params.id;
       const favourites = await accountService.getFavourites(id, dependencies);
@@ -103,8 +131,6 @@ export default (dependencies) => {
     console.log("getAccountById in accounts/controllers called");
   };
 
-
-
   const updateAccount = async (request, response, next) => {
     // Input
     const id = request.params.id;
@@ -123,10 +149,6 @@ export default (dependencies) => {
     console.log("updateAccount in accounts/controllers called");
   };
 
-  
-
-  
-
   const verify = async (request, response, next) => {
     try {
       // Input
@@ -142,17 +164,22 @@ export default (dependencies) => {
       next(new Error(`Verification Failed ${err.message}`));
       console.log("verify in accounts/controllers called and failed");
     }
-  };
+  };*/
+
+  //--------------------------------------------------------------------------------
+  //--------------------------------------------------------------------------------
 
   return {
     createAccount,
     getAccounts,
     getAccountByEmail,
-    getAccountById,
-    updateAccount,
+    //getAccountById,
+    //updateAccount,
     authenticateAccount,
-    addFavourite,
-    getFavourites,
-    verify,
+    updateFavourites,
+    updatePlaylist,
+    updateFavouritePeople,
+    //getFavourites,
+    //verify,
   };
 };

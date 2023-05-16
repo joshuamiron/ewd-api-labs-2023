@@ -28,14 +28,47 @@ export default {
     return account;
   },
 
-  //-------------------------------------------------------------------------------------
-  //-------------------------------------------------------------------------------------
-
-  getAccountById: (accountId, { accountsRepository }) => {
-    return accountsRepository.getById(accountId);
+  updateFavourites: async (email, movieId, { accountsRepository }) => {
+    const account = await accountsRepository.getByEmail(email);
+    if (!account.favourites.includes(movieId)) {
+      account.favourites.push(movieId);
+      console.log("Movie added to favourites list:", account);
+    } 
+    else {
+      account.favourites = account.favourites.filter((id) => id !== movieId);
+      console.log("Movie removed from favourites list:", account);
+    }
+    return await accountsRepository.merge(account);
   },
 
+  updatePlaylist: async (email, movieId, { accountsRepository }) => {
+    const account = await accountsRepository.getByEmail(email);
+    if (!account.playlist.includes(movieId)) {
+      account.playlist.push(movieId);
+      console.log("Movie added to playlist:", account);
+    } 
+    else {
+      account.playlist = account.playlist.filter((id) => id !== movieId);
+      console.log("Movie removed from playlist:", account);
+    }
+    return await accountsRepository.merge(account);
+  },
   
+  updateFavouritePeople: async (email, person, { accountsRepository }) => {
+    const account = await accountsRepository.getByEmail(email);
+    if (!account.favouritepeople.includes(person)) {
+      account.favouritepeople.push(person);
+      console.log("Person added to favourte people list:", account);
+    } 
+    else {
+      account.favouritepeople = account.favouritepeople.filter((personId) => personId !== person);
+      console.log("Person removed from favourite people list:", account);
+    }
+    return await accountsRepository.merge(account);
+  },
+
+  //-------------------------------------------------------------------------------------
+  //-------------------------------------------------------------------------------------
 
   // Trying to catch duplicate account creation, which crashes the API
   /*  registerAccount: async (firstName, lastName, email, password, { accountsRepository, authenticator }) => {
@@ -49,32 +82,13 @@ export default {
     return accountsRepository.persist(account);
   },*/
 
+ /* getAccountById: (accountId, { accountsRepository }) => {
+    return accountsRepository.getById(accountId);
+  },
+
   getFavourites: async (accountId, { accountsRepository }) => {
     const account = await accountsRepository.get(accountId);
     return account.favourites;
-  },
-
-  /* addFavourite: async (email, movieId, { accountsRepository }) => {
-    const account = await accountsRepository.getByEmail(email);
-    if (!account.favourites.includes(movieId)) {
-      account.favourites.push(movieId);
-      return await accountsRepository.merge(account);
-    } else {
-      return account;
-    }
-  },*/
-
-  addFavourite: async (email, movieId, { accountsRepository }) => {
-    const account = await accountsRepository.getByEmail(email);
-    if (!account.favourites.includes(movieId)) {
-      account.favourites.push(movieId);
-      console.log("Favourite added to list:", account);
-    } 
-    else {
-      account.favourites = account.favourites.filter((id) => id !== movieId);
-      console.log("Favourite removed from list:", account);
-    }
-    return await accountsRepository.merge(account);
   },
 
   verifyToken: async (token, { accountsRepository, tokenManager }) => {
@@ -84,5 +98,5 @@ export default {
       throw new Error("Bad token");
     }
     return user.email;
-  },
+  },*/
 };

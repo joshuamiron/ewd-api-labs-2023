@@ -9,7 +9,7 @@ export default {
         if (process.env.DATABASE_DIALECT === "mongo") {
             // Connect to database
             mongoose.connect(process.env.DATABASE_URL);
-            const connection = await mongoose.connection;
+            const connection = mongoose.connection;
 
             connection.on('error', (err) => {
                 console.log(`database connection error: ${err}`);
