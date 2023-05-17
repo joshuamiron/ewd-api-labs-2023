@@ -1,4 +1,4 @@
-import express from "express";
+import express, { Router } from "express";
 import AccountsController from "../controllers";
 import ValidationController from "../controllers/ValidationController"; //add to import statements at top of file
 
@@ -20,13 +20,22 @@ const createRouter = (dependencies) => {
 
   // ---- Add or remove favourite movies
   router.route("/updatefavourites/:email").put(accountsController.updateFavourites);
-  
+
   // ---- Add or remove movies to playlist
   router.route("/updateplaylist/:email").put(accountsController.updatePlaylist);
 
   // ---- Add or remove favourite people
   router.route("/updatefavouritepeople/:email").put(accountsController.updateFavouritePeople);
 
+  // ---- Add or remove made-up movies
+  router.route("/updatemadeupmovies/:email").put(accountsController.updateMadeUpMovies);
+
+  //router.put("/updatemadeupmovies/:email", (req, res) => {
+  //   console.log("Update made-up movies request received by routes.");
+  //   accountsController.updateMadeUpMovies(req, res);
+  // });
+
+  
   //--------------------------------------------------------------------------------
   //--------------------------------------------------------------------------------
 

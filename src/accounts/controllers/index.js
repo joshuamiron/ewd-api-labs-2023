@@ -105,6 +105,20 @@ export default (dependencies) => {
     }
   };
 
+  const updateMadeUpMovies = async (request, response, next) => {
+    console.log("Request body:", request.body);
+    try {
+     const email = request.params.email;
+     const { madeupMovieData } = request.body;
+      const account = await accountService.updateMadeUpMovies(email, madeupMovieData, dependencies);
+      console.log("Made-up movies updated successfully:", account);
+      response.status(200).json(account);
+    } catch (err) {
+      console.log("Error adding to made-up movie:", err.message);
+      next(new Error(`Invalid Data ${err.message}`));
+    }
+  };
+
   //--------------------------------------------------------------------------------
   //--------------------------------------------------------------------------------
 
@@ -179,6 +193,7 @@ export default (dependencies) => {
     updateFavourites,
     updatePlaylist,
     updateFavouritePeople,
+    updateMadeUpMovies,
     //getFavourites,
     //verify,
   };

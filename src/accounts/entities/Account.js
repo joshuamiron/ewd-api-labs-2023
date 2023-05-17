@@ -1,5 +1,5 @@
 export default class {
-    constructor(id = undefined, firstName, lastName, email, password, favourites, playlist, favouritepeople = []) {
+    constructor(id = undefined, firstName, lastName, email, password, favourites, playlist, favouritepeople = [], madeupmovies = []) {
       this.id = id;
       this.firstName = firstName;
       this.lastName = lastName;
@@ -8,5 +8,6 @@ export default class {
       this.favourites = favourites;
       this.playlist = playlist;
       this.favouritepeople = favouritepeople;
+      this.madeupmovies = madeupmovies;
     }
   }

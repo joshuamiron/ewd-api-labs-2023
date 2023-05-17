@@ -67,6 +67,23 @@ export default {
     return await accountsRepository.merge(account);
   },
 
+  updateMadeUpMovies: async (email, madeupMovieData, { accountsRepository }) => {
+    const account = await accountsRepository.getByEmail(email);
+    try {
+      if (!account) {
+        throw new Error("User not found");
+    } 
+
+    const { title, overview, genre, runtime, releasedate, productioncompany } = madeupMovieData;
+    const newMadeUpMovie = { title, overview, genre, runtime, releasedate: new Date(releasedate), productioncompany };
+      account.madeupmovies.push(newMadeUpMovie);
+      return await accountsRepository.merge(account);
+    } catch (error) {
+        console.error("Failed to add made-up movie:", error);
+        throw error;
+    }
+  },
+
   //-------------------------------------------------------------------------------------
   //-------------------------------------------------------------------------------------
 
