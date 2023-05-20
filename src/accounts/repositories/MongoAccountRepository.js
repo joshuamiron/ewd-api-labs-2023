@@ -16,10 +16,10 @@ export default class extends AccountRepository {
             madeupmovies:[{
                 title: String,
                 overview: String,
-                genre: Number,
+                genre: String,
                 runtime: String,
                 releasedate: Date,
-                productioncompany: Number,
+                productioncompany: String,
             }]
         });
         this.model = mongoose.model('Account', accountsSchema);

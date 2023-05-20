@@ -24,7 +24,7 @@ export default {
   getAccountByEmail: async (email, { accountsRepository }) => {
     console.log("getAccountByEmail in accounts/services called");
     const account = await accountsRepository.getByEmail(email);
-    console.log("Services says " + account);
+    console.log("Services says ", account);
     return account;
   },
 
@@ -67,19 +67,39 @@ export default {
     return await accountsRepository.merge(account);
   },
 
-  updateMadeUpMovies: async (email, madeupMovieData, { accountsRepository }) => {
+  addMadeUpMovie: async (email, madeupMovieData, { accountsRepository }) => {
+    console.log("Request body:", madeupMovieData);
+    const account = await accountsRepository.getByEmail(email);
+    console.log("Account:", account);
+    try {
+      if (!account) {
+        throw new Error("User not found");
+    } 
+    const { title, overview, genre, runtime, releasedate, productioncompany } = madeupMovieData;
+    console.log("Made-up Movie Data:", madeupMovieData);
+    console.log("Title:", title);
+    const newMadeUpMovie = { title, overview, genre, runtime, releasedate: new Date(releasedate), productioncompany };
+    console.log("New Made-up Movie:", newMadeUpMovie);
+    account.madeupmovies.push(newMadeUpMovie);
+    return await accountsRepository.merge(account);
+    } catch (error) {
+        console.error("Failed to add made-up movie:", error);
+        throw error;
+    }
+  },
+  
+  deleteMadeUpMovie: async (email, madeupMovieData, { accountsRepository }) => {
     const account = await accountsRepository.getByEmail(email);
     try {
       if (!account) {
         throw new Error("User not found");
     } 
-
-    const { title, overview, genre, runtime, releasedate, productioncompany } = madeupMovieData;
-    const newMadeUpMovie = { title, overview, genre, runtime, releasedate: new Date(releasedate), productioncompany };
-      account.madeupmovies.push(newMadeUpMovie);
+    const { title, overview, genre, runtime, productioncompany, releasedate } = madeupMovieData;
+    const newMadeUpMovie = { title, overview, genre, runtime, productioncompany, releasedate: new Date(releasedate) };
+      account.madeupmovies.filter(newMadeUpMovie);
       return await accountsRepository.merge(account);
     } catch (error) {
-        console.error("Failed to add made-up movie:", error);
+        console.error("Failed to delete made-up movie:", error);
         throw error;
     }
   },

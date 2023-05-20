@@ -105,16 +105,30 @@ export default (dependencies) => {
     }
   };
 
-  const updateMadeUpMovies = async (request, response, next) => {
+  const addMadeUpMovie = async (request, response, next) => {
+    console.log("Request body:", request.body);
+    try {
+     const email = request.params.email;
+     const madeupMovieData = request.body;
+      const account = await accountService.addMadeUpMovie(email, madeupMovieData, dependencies);
+      console.log("Made-up movies updated successfully:", account);
+      response.status(200).json(account);
+    } catch (err) {
+      console.log("Error adding to made-up movies:", err.message);
+      next(new Error(`Invalid Data ${err.message}`));
+    }
+  };
+
+  const deleteMadeUpMovie = async (request, response, next) => {
     console.log("Request body:", request.body);
     try {
      const email = request.params.email;
      const { madeupMovieData } = request.body;
-      const account = await accountService.updateMadeUpMovies(email, madeupMovieData, dependencies);
-      console.log("Made-up movies updated successfully:", account);
+      const account = await accountService.deleteMadeUpMovie(email, madeupMovieData, dependencies);
+      console.log("Made-up movies deleted successfully:", account);
       response.status(200).json(account);
     } catch (err) {
-      console.log("Error adding to made-up movie:", err.message);
+      console.log("Error deleting from made-up movies:", err.message);
       next(new Error(`Invalid Data ${err.message}`));
     }
   };
@@ -122,17 +136,7 @@ export default (dependencies) => {
   //--------------------------------------------------------------------------------
   //--------------------------------------------------------------------------------
 
-  /* const getFavourites = async (request, response, next) => {
-    try {
-      const id = request.params.id;
-      const favourites = await accountService.getFavourites(id, dependencies);
-      response.status(200).json(favourites);
-    } catch (err) {
-      next(new Error(`Invalid Data ${err.message}`));
-    }
-  };
-
-  const getAccountById = async (request, response, next) => {
+  /* const getAccountById = async (request, response, next) => {
     // input
     const accountId = request.params.id;
     // Treatment
@@ -193,7 +197,8 @@ export default (dependencies) => {
     updateFavourites,
     updatePlaylist,
     updateFavouritePeople,
-    updateMadeUpMovies,
+    addMadeUpMovie,
+    deleteMadeUpMovie,
     //getFavourites,
     //verify,
   };
