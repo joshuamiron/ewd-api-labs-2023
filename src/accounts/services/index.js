@@ -77,7 +77,6 @@ export default {
     } 
     const { title, overview, genre, runtime, releasedate, productioncompany } = madeupMovieData;
     console.log("Made-up Movie Data:", madeupMovieData);
-    console.log("Title:", title);
     const newMadeUpMovie = { title, overview, genre, runtime, releasedate: new Date(releasedate), productioncompany };
     console.log("New Made-up Movie:", newMadeUpMovie);
     account.madeupmovies.push(newMadeUpMovie);
@@ -88,21 +87,22 @@ export default {
     }
   },
   
-  deleteMadeUpMovie: async (email, madeupMovieData, { accountsRepository }) => {
-    const account = await accountsRepository.getByEmail(email);
+  deleteMadeUpMovie: async (movieId, { accountsRepository }) => {
     try {
+      const account = await accountsRepository.findById(); // Replace `findById` with the appropriate method to find the account based on the ID
       if (!account) {
         throw new Error("User not found");
-    } 
-    const { title, overview, genre, runtime, productioncompany, releasedate } = madeupMovieData;
-    const newMadeUpMovie = { title, overview, genre, runtime, productioncompany, releasedate: new Date(releasedate) };
-      account.madeupmovies.filter(newMadeUpMovie);
+      }
+      const updatedMadeUpMovies = account.madeupmovies.filter(movie => movie.id !== movieId);
+      account.madeupmovies = updatedMadeUpMovies;
       return await accountsRepository.merge(account);
     } catch (error) {
-        console.error("Failed to delete made-up movie:", error);
-        throw error;
+      console.error("Failed to delete made-up movie:", error);
+      throw error;
     }
   },
+  
+  
 
   //-------------------------------------------------------------------------------------
   //-------------------------------------------------------------------------------------

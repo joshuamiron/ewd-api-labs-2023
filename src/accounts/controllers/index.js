@@ -66,9 +66,13 @@ export default (dependencies) => {
   const updateFavourites = async (request, response, next) => {
     console.log("Request body:", request.body);
     try {
-     const email = request.params.email;
-     const { movieId } = request.body;
-      const account = await accountService.updateFavourites(email, movieId, dependencies);
+      const email = request.params.email;
+      const { movieId } = request.body;
+      const account = await accountService.updateFavourites(
+        email,
+        movieId,
+        dependencies
+      );
       console.log("Favourite movies updated successfully:", account);
       response.status(200).json(account);
     } catch (err) {
@@ -80,9 +84,13 @@ export default (dependencies) => {
   const updatePlaylist = async (request, response, next) => {
     console.log("Request body:", request.body);
     try {
-     const email = request.params.email;
-     const { movieId } = request.body;
-      const account = await accountService.updatePlaylist(email, movieId, dependencies);
+      const email = request.params.email;
+      const { movieId } = request.body;
+      const account = await accountService.updatePlaylist(
+        email,
+        movieId,
+        dependencies
+      );
       console.log("Playlist updated successfully:", account);
       response.status(200).json(account);
     } catch (err) {
@@ -90,13 +98,17 @@ export default (dependencies) => {
       next(new Error(`Invalid Data ${err.message}`));
     }
   };
-  
+
   const updateFavouritePeople = async (request, response, next) => {
     console.log("Request body:", request.body);
     try {
-     const email = request.params.email;
-     const { person } = request.body;
-      const account = await accountService.updateFavouritePeople(email, person, dependencies);
+      const email = request.params.email;
+      const { person } = request.body;
+      const account = await accountService.updateFavouritePeople(
+        email,
+        person,
+        dependencies
+      );
       console.log("Favourite people updated successfully:", account);
       response.status(200).json(account);
     } catch (err) {
@@ -106,13 +118,16 @@ export default (dependencies) => {
   };
 
   const addMadeUpMovie = async (request, response, next) => {
-    console.log("Request body:", request.body);
     try {
-     const email = request.params.email;
-     const madeupMovieData = request.body;
-      const account = await accountService.addMadeUpMovie(email, madeupMovieData, dependencies);
-      console.log("Made-up movies updated successfully:", account);
-      response.status(200).json(account);
+      const email = request.params.email;
+      const madeupMovieData = request.body;
+      const account = await accountService.addMadeUpMovie(
+        email,
+        madeupMovieData,
+        dependencies
+      );
+      const addedMovie = account.madeupmovies[account.madeupmovies.length - 1];
+      response.status(200).json({account, addedMovie});
     } catch (err) {
       console.log("Error adding to made-up movies:", err.message);
       next(new Error(`Invalid Data ${err.message}`));
@@ -122,9 +137,9 @@ export default (dependencies) => {
   const deleteMadeUpMovie = async (request, response, next) => {
     console.log("Request body:", request.body);
     try {
-     const email = request.params.email;
-     const { madeupMovieData } = request.body;
-      const account = await accountService.deleteMadeUpMovie(email, madeupMovieData, dependencies);
+      const movieId = request.params.movieId;
+      //const madeupMovieData = request.body;
+      const account = await accountService.deleteMadeUpMovie( movieId, dependencies );
       console.log("Made-up movies deleted successfully:", account);
       response.status(200).json(account);
     } catch (err) {
