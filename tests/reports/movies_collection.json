@@ -7,7 +7,56 @@
 	},
 	"item": [
 		{
-			"name": "Create a new account",
+			"name": "Create my account",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"  pm.test(\"Add Account: Successful Response\",()=>pm.response.to.have.status(201))\r",
+							"\r",
+							"    //... other tests\r",
+							"  const jsonData = pm.response.json();\r",
+							"  pm.test(\"Add Account: Response Object contains correct properties\",()=>{\r",
+							"    pm.expect(jsonData).to.have.property(\"id\");\r",
+							"    pm.expect(jsonData.id).to.be.a(\"string\");\r",
+							"    pm.expect(jsonData.firstName).to.eql(\"Joshua\");\r",
+							"    pm.expect(jsonData.lastName).to.eql(\"Miron\");\r",
+							"    pm.expect(jsonData.email).to.eql(\"jmiron@gmail.com\");\r",
+							"  })\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"firstName\": \"Joshua\",\r\n    \"lastName\": \"Miron\",\r\n    \"email\": \"jmiron@gmail.com\",\r\n    \"password\": \"testTest1!-+=*42\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/api/accounts",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"accounts"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create a random account",
 			"event": [
 				{
 					"listen": "prerequest",
@@ -45,6 +94,84 @@
 			],
 			"request": {
 				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"firstName\": \"{{firstName}}\",\r\n    \"lastName\": \"{{lastName}}\",\r\n    \"email\": \"{{email}}\",\r\n    \"password\": \"{{password}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/api/accounts",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"accounts"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get acccounts",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"  pm.test(\"Get Accounts: Successful Response\",()=>pm.response.to.have.status(200))\r",
+							"\r",
+							"    //... other tests\r",
+							"  const jsonData = pm.response.json();\r",
+							"  const lastAccount = jsonData[jsonData.length - 1];\r",
+							"\r",
+							"  pm.test(\"Get Accounts: Each Object contains correct properties\", ()=> {\r",
+							"    jsonData.forEach((account) => {\r",
+							"    pm.expect(account).to.have.property(\"id\");\r",
+							"    pm.expect(account.id).to.be.a(\"string\");\r",
+							"    pm.expect(account).to.have.property(\"password\");\r",
+							"    pm.expect(account).to.have.property(\"favourites\");\r",
+							"    pm.expect(account.favourites).to.be.a(\"array\");\r",
+							"    pm.expect(account).to.have.property(\"playlist\");\r",
+							"    pm.expect(account.playlist).to.be.a(\"array\");\r",
+							"    pm.expect(account).to.have.property(\"favouritepeople\");\r",
+							"    pm.expect(account.favouritepeople).to.be.a(\"array\");\r",
+							"    pm.expect(account).to.have.property(\"madeupmovies\");\r",
+							"    pm.expect(account.madeupmovies).to.be.a(\"array\");\r",
+							"    });\r",
+							"\r",
+							"    pm.test(\"Get Accounts: Last Object contains correct properties\", ()=> {\r",
+							"        pm.expect(lastAccount.firstName).to.eql(pm.collectionVariables.get(\"firstName\"));\r",
+							"        pm.expect(lastAccount.lastName).to.eql(pm.collectionVariables.get(\"lastName\"));\r",
+							"        pm.expect(lastAccount.email).to.eql(pm.collectionVariables.get(\"email\").toLowerCase());\r",
+							"    });\r",
+							"\r",
+							"  });\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
 				"header": [],
 				"body": {
 					"mode": "raw",
@@ -123,6 +250,210 @@
 			"response": []
 		},
 		{
+			"name": "Create account - Bad email",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"  pm.test(\"Add Account Bad Email: Correct Response\",()=>pm.response.to.have.status(500))\r",
+							"\r",
+							"    //... other tests\r",
+							"  const jsonData = pm.response.json();\r",
+							"  pm.test(\"Add Account: Response Object contains correct properties\",()=>{\r",
+							"    pm.expect(jsonData).to.not.have.property(\"id\");\r",
+							"    pm.expect(jsonData).to.not.have.property(\"firstName\");\r",
+							"    pm.expect(jsonData).to.not.have.property(\"lastName\");\r",
+							"    pm.expect(jsonData).to.not.have.property(\"email\");\r",
+							"  })\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"firstName\": \"{{firstName}}\",\r\n    \"lastName\": \"{{lastName}}\",\r\n    \"email\": \"testtest.com\",\r\n    \"password\": \"testTest1!-+=*42\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/api/accounts",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"accounts"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create account - Bad password",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"  pm.test(\"Add Account Bad Password: Correct Response\",()=>pm.response.to.have.status(500))\r",
+							"\r",
+							"    //... other tests\r",
+							"  const jsonData = pm.response.json();\r",
+							"  pm.test(\"Add Account: Response Object contains correct properties\",()=>{\r",
+							"    pm.expect(jsonData).to.not.have.property(\"id\");\r",
+							"    pm.expect(jsonData).to.not.have.property(\"firstName\");\r",
+							"    pm.expect(jsonData).to.not.have.property(\"lastName\");\r",
+							"    pm.expect(jsonData).to.not.have.property(\"email\");\r",
+							"  })\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"firstName\": \"{{firstName}}\",\r\n    \"lastName\": \"{{lastName}}\",\r\n    \"email\": \"{{email}}\",\r\n    \"password\": \"test123@\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/api/accounts",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"accounts"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get My Account By Email",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"  pm.test(\"Get Account By Email: Successful Response\",()=>pm.response.to.have.status(200))\r",
+							"\r",
+							"    //... other tests\r",
+							"  const jsonData = pm.response.json();\r",
+							"  pm.test(\"Get Account By Email: Response Object contains correct properties\",()=>{\r",
+							"    pm.expect(jsonData).to.have.property(\"id\");\r",
+							"    pm.expect(jsonData.id).to.be.a(\"string\");\r",
+							"    pm.expect(jsonData.firstName).to.eql(\"Joshua\");\r",
+							"    pm.expect(jsonData.lastName).to.eql(\"Miron\");\r",
+							"    pm.expect(jsonData.email).to.eql(\"jmiron@gmail.com\");\r",
+							"  })\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/api/accounts/getaccount/jmiron@gmail.com",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"accounts",
+						"getaccount",
+						"jmiron@gmail.com"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Account By Random Email",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"  pm.test(\"Get Account By Email: Successful Response\",()=>pm.response.to.have.status(200))\r",
+							"\r",
+							"    //... other tests\r",
+							"  const jsonData = pm.response.json();\r",
+							"  pm.test(\"Get Account By Email: Response Object contains correct properties\",()=>{\r",
+							"    pm.expect(jsonData).to.have.property(\"id\");\r",
+							"    pm.expect(jsonData.id).to.be.a(\"string\");\r",
+							"    pm.expect(jsonData.firstName).to.eql(pm.collectionVariables.get(\"firstName\"));\r",
+							"    pm.expect(jsonData.lastName).to.eql(pm.collectionVariables.get(\"lastName\"));\r",
+							"    pm.expect(jsonData.email).to.eql(pm.collectionVariables.get(\"email\").toLowerCase());\r",
+							"  })\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/api/accounts/getaccount/{{email}}",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"accounts",
+						"getaccount",
+						"{{email}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "Get Movies: valid token",
 			"event": [
 				{
@@ -184,19 +515,127 @@
 			"response": []
 		},
 		{
-			"name": "Get Movies: invalid token",
+			"name": "Add Favourite To My Account",
 			"event": [
 				{
 					"listen": "test",
 					"script": {
 						"exec": [
-							"   var jsonData = pm.response.json();\r",
+							"  pm.test(\"Add Favourite Movie to Account: Successful Response\",()=>pm.response.to.have.status(201))\r",
 							"\r",
-							"  pm.test(\"Invalid Token: Correct Response\", function () {\r",
-							"     pm.expect(pm.response.code).to.be.oneOf([500,401,403]);\r",
-							"     pm.expect(jsonData).to.be.an(\"object\");\r",
-							"     pm.expect(jsonData).to.have.property(\"error\");\r",
-							"  });\r",
+							"    //... other tests\r",
+							"  const jsonData = pm.response.json();\r",
+							"  pm.test(\"Add Favourite Movie to Account: Response Object contains correct properties\",()=>{\r",
+							"    pm.expect(jsonData).to.have.property(\"favourites\");\r",
+							"    pm.expect(jsonData.favourites).to.be.a(\"array\");\r",
+							"    pm.expect(jsonData.favourites).to.include(758323);\r",
+							"  })\r",
+							"\r",
+							"\r",
+							" "
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"movieId\": \"758323\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/api/accounts/updatefavourites/jmiron@gmail.com",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"accounts",
+						"updatefavourites",
+						"jmiron@gmail.com"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add Favourite Random Account",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"  pm.test(\"Add Favourite Movie to Account: Successful Response\",()=>pm.response.to.have.status(201))\r",
+							"\r",
+							"    //... other tests\r",
+							"  const jsonData = pm.response.json();\r",
+							"  pm.test(\"Add Favourite Movie to Account: Response Object contains correct properties\",()=>{\r",
+							"    pm.expect(jsonData).to.have.property(\"favourites\");\r",
+							"    pm.expect(jsonData.favourites).to.be.a(\"array\");\r",
+							"    pm.expect(jsonData.favourites).to.include(758323);\r",
+							"  })\r",
+							"\r",
+							"\r",
+							" "
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"movieId\": \"758323\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/api/accounts/updatefavourites/{{email}}",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"accounts",
+						"updatefavourites",
+						"{{email}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add Made Up Movie to My Account",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"  pm.test(\"Add Made Up Movie: Successful Response\",()=>pm.response.to.have.status(201))\r",
+							"\r",
+							"    //... other tests\r",
+							"  const jsonData = pm.response.json();\r",
+							"  pm.test(\"Add Made Up Movie: Response Object contains correct properties\",()=>{\r",
+							"    pm.expect(jsonData.title).to.eql(\"The Quick Brown Fox\");\r",
+							"    pm.expect(jsonData.overview).to.eql(\"The quick brown fox jumped over the lazy dog.\");\r",
+							"    pm.expect(jsonData.genre).to.eql(\"0\");\r",
+							"    pm.expect(jsonData.runtime).to.eql(\"119\");\r",
+							"    pm.expect(jsonData.releasedate).to.eql(\"2023-05-30T04:00:00.000Z\");\r",
+							"    pm.expect(jsonData.productioncompany).to.eql(\"0\");\r",
+							"    pm.expect(jsonData).to.have.property(\"_id\");\r",
+							"  })\r",
 							""
 						],
 						"type": "text/javascript"
@@ -204,26 +643,140 @@
 				}
 			],
 			"request": {
-				"auth": {
-					"type": "bearer",
-					"bearer": [
-						{
-							"key": "token",
-							"value": "a_bad_token!!!",
-							"type": "string"
-						}
-					]
-				},
-				"method": "GET",
+				"method": "PUT",
 				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"madeupMovieData\": {\r\n        \"title\": \"The Quick Brown Fox\",\r\n        \"overview\": \"The quick brown fox jumped over the lazy dog.\",\r\n        \"genre\": \"0\",\r\n        \"runtime\": \"119\",\r\n        \"releasedate\": \"2023-05-30T04:00:00.000Z\",\r\n        \"productioncompany\": \"0\"\r\n    }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
 				"url": {
-					"raw": "{{url}}/api/movies",
+					"raw": "{{url}}/api/accounts/addmadeupmovie/jmiron@gmail.com/",
 					"host": [
 						"{{url}}"
 					],
 					"path": [
 						"api",
-						"movies"
+						"accounts",
+						"addmadeupmovie",
+						"jmiron@gmail.com",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add Random Made Up Movie to My Account",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"pm.collectionVariables.set(\"title\", pm.variables.replaceIn('{{$randomProductName}}'))\r",
+							"pm.collectionVariables.set(\"overview\",pm.variables.replaceIn('{{$randomLoremSentences}}'))\r",
+							"pm.collectionVariables.set(\"genre\", \"Action\")\r",
+							"pm.collectionVariables.set(\"runtime\",pm.variables.replaceIn('{{$randomInt}}'))\r",
+							"pm.collectionVariables.set(\"releasedate\", pm.variables.replaceIn('{{$randomDateFuture}}'))\r",
+							"pm.collectionVariables.set(\"productioncompany\",\"Netflix\")"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"  pm.test(\"Add Made Up Movie: Successful Response\",()=>pm.response.to.have.status(201))\r",
+							"\r",
+							"    //... other tests\r",
+							"  const jsonData = pm.response.json();\r",
+							"  pm.test(\"Add Made Up Movie: Response Object contains correct properties\",()=>{\r",
+							"    pm.expect(jsonData.title).to.eql(pm.collectionVariables.get(\"title\"));\r",
+							"    pm.expect(jsonData.overview).to.eql(pm.collectionVariables.get(\"overview\"));\r",
+							"    pm.expect(jsonData.genre).to.eql(pm.collectionVariables.get(\"genre\"));\r",
+							"    pm.expect(jsonData.runtime).to.eql(pm.collectionVariables.get(\"runtime\"));\r",
+							"    pm.expect(jsonData.productioncompany).to.eql(pm.collectionVariables.get(\"productioncompany\"));\r",
+							"    //pm.expect(jsonData.releasedate).to.eql(pm.collectionVariables.get(\"releasedate\"));\r",
+							"    pm.expect(jsonData).to.have.property(\"_id\");\r",
+							"    //pm.expect(jsonData.id).to.be.a(\"string\");\r",
+							"    \r",
+							"  })\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"madeupMovieData\": {\r\n        \"title\": \"{{title}}\",\r\n        \"overview\": \"{{overview}}\",\r\n        \"genre\": \"{{genre}}\",\r\n        \"runtime\": \"{{runtime}}\",\r\n        \"releasedate\": \"{{releasedate}}\",\r\n        \"productioncompany\": \"{{productioncompany}}\"\r\n    }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/api/accounts/addmadeupmovie/jmiron@gmail.com/",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"accounts",
+						"addmadeupmovie",
+						"jmiron@gmail.com",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Made Up Movie",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"  pm.test(\"Delete Made Up Movie: Successful Response\",()=>pm.response.to.have.status(201))\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/api/accounts/deletemadeupmovie/jmiron@gmail.com/646a54a84657e49e13061331",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"accounts",
+						"deletemadeupmovie",
+						"jmiron@gmail.com",
+						"646a54a84657e49e13061331"
 					]
 				}
 			},
@@ -273,6 +826,30 @@
 		},
 		{
 			"key": "authToken",
+			"value": ""
+		},
+		{
+			"key": "title",
+			"value": ""
+		},
+		{
+			"key": "overview",
+			"value": ""
+		},
+		{
+			"key": "genre",
+			"value": ""
+		},
+		{
+			"key": "runtime",
+			"value": ""
+		},
+		{
+			"key": "releasedate",
+			"value": ""
+		},
+		{
+			"key": "productioncompany",
 			"value": ""
 		}
 	]

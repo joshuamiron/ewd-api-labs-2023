@@ -1,12 +1,12 @@
 import express from "express";
 import AccountsController from "../controllers";
-import ValidationController from "../controllers/ValidationController"; //add to import statements at top of file
+import ValidationController from "../controllers/ValidationController";
 
 const createRouter = (dependencies) => {
   const router = express.Router();
   // load controller with dependencies
   const accountsController = AccountsController(dependencies);
-  const validationController = ValidationController(dependencies); //Add this line Load validation controller with dependencies
+  const validationController = ValidationController(dependencies);
 
   router.route("/").post(validationController.validateAccount, accountsController.createAccount);
 

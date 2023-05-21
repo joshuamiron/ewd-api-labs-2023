@@ -4,13 +4,18 @@ export default (dependencies) => {
 
     const getMovie = async (request, response, next) => {
         console.log("getMovie in movies/controllers called");
-        // Input
-        const movieId = request.params.id;
-        // Treatment
-        const movie = await moviesService.getMovie(movieId, dependencies);
-        // Output
-        response.status(200).json(movie);
+        try {
+            // Input
+            const movieId = request.params.id;
+            // Treatment
+            const movie = await moviesService.getMovie(movieId, dependencies);
+            // Output
+            response.status(200).json(movie);
+        } catch (error) {
+            response.status(401).json({message: "User not authenticated"});
+        }
     };
+
     const getMovies = async (request, response, next) => {
         console.log("getMovies in movies/controllers called");
         // Input

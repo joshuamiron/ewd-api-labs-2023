@@ -68,17 +68,13 @@ export default {
   },
 
   addMadeUpMovie: async (email, { madeupMovieData} , { accountsRepository }) => {
-    console.log("Services - Request body:", madeupMovieData);
     const account = await accountsRepository.getByEmail(email);
-    console.log("Account:", account);
     try {
       if (!account) {
         throw new Error("User not found");
     } 
     const { title, overview, genre, runtime, releasedate, productioncompany } = madeupMovieData;
-    console.log("Made-up Movie Data:", madeupMovieData);
     const newMadeUpMovie = { title, overview, genre, runtime, releasedate: new Date(releasedate), productioncompany };
-    console.log("New Made-up Movie:", newMadeUpMovie);
     account.madeupmovies.push(newMadeUpMovie);
     return await accountsRepository.merge(account);
     } catch (error) {
@@ -88,25 +84,20 @@ export default {
   },
 
   deleteMadeUpMovie: async (email, movieId, { accountsRepository }) => {
-    console.log("Service - deleteMadeUpMovie:", email, movieId);
     const account = await accountsRepository.getByEmail(email);
-    console.log("Account:", account);
     try {
       if (!account) {
         throw new Error("User not found");
       }
       const updatedMadeUpMovies = account.madeupmovies.filter((movie) => movie._id.toString() !== movieId);
       account.madeupmovies = updatedMadeUpMovies;
-      return await accountsRepository.merge(account); // Update the account in the database
+      return await accountsRepository.merge(account);
     } catch (error) {
       console.error("Failed to delete made-up movie:", error);
       throw error;
     }
   },
   
-  
-  
-
   //-------------------------------------------------------------------------------------
   //-------------------------------------------------------------------------------------
 
