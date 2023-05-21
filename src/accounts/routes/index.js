@@ -29,7 +29,7 @@ const createRouter = (dependencies) => {
 
   // ---- Add or remove made-up movies
   router.route("/addmadeupmovie/:email").put(accountsController.addMadeUpMovie);
-  router.route("/deletemadeupmovie/:movieId").delete(accountsController.deleteMadeUpMovie);
+  router.route("/deletemadeupmovie/:email/:movieid").delete(accountsController.deleteMadeUpMovie);
   
   //--------------------------------------------------------------------------------
   //--------------------------------------------------------------------------------

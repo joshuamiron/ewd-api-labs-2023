@@ -9,7 +9,8 @@ export default (dependencies) => {
       const account = await accountService.createAccount(
         firstName,
         lastName,
-        email.toLowerCase(),
+        //email.toLowerCase(),
+        email,
         password,
         dependencies
       );
@@ -17,7 +18,6 @@ export default (dependencies) => {
       response.status(201).json(account);
       console.log("createAccount in accounts/controllers called and succeeded");
     } catch (error) {
-      //response.status(409).json({ message: error.message });
       response.status(409).json({ message: "Account already exists." });
       console.log("createAccount in accounts/controllers called and failed");
     }
@@ -118,28 +118,27 @@ export default (dependencies) => {
   };
 
   const addMadeUpMovie = async (request, response, next) => {
+    console.log("Controller - Request body:", request.body);
     try {
-      const email = request.params.email;
-      const madeupMovieData = request.body;
-      const account = await accountService.addMadeUpMovie(
-        email,
-        madeupMovieData,
-        dependencies
-      );
+     const email = request.params.email;
+     const madeupMovieData = request.body;
+      const account = await accountService.addMadeUpMovie(email, madeupMovieData, dependencies);
+      console.log("Made-up movies updated successfully:", account);
       const addedMovie = account.madeupmovies[account.madeupmovies.length - 1];
-      response.status(200).json({account, addedMovie});
+      response.status(200).json(addedMovie);
     } catch (err) {
       console.log("Error adding to made-up movies:", err.message);
       next(new Error(`Invalid Data ${err.message}`));
     }
   };
 
-  const deleteMadeUpMovie = async (request, response, next) => {
+   const deleteMadeUpMovie = async (request, response, next) => {
     console.log("Request body:", request.body);
     try {
-      const movieId = request.params.movieId;
-      //const madeupMovieData = request.body;
-      const account = await accountService.deleteMadeUpMovie( movieId, dependencies );
+      const { email, movieid } = request.params;
+      console.log("Controllers - deleteMadeUpMovie:", email, movieid);
+      console.log("Controllers request.params:", request.params);
+      const account = await accountService.deleteMadeUpMovie( email, movieid, dependencies );
       console.log("Made-up movies deleted successfully:", account);
       response.status(200).json(account);
     } catch (err) {
@@ -206,15 +205,14 @@ export default (dependencies) => {
     createAccount,
     getAccounts,
     getAccountByEmail,
-    //getAccountById,
-    //updateAccount,
     authenticateAccount,
     updateFavourites,
     updatePlaylist,
     updateFavouritePeople,
     addMadeUpMovie,
     deleteMadeUpMovie,
-    //getFavourites,
+    //getAccountById,
+    //updateAccount,
     //verify,
   };
 };
