@@ -2,7 +2,7 @@
     "swagger": "2.0",
     "info": {
       "version": "1.0.0", //version of the OpenAPI Specification
-      "title": "My User Project CRUD",
+      "title": "ewd-api-labs-2023",
       "description": "My User Project Application API",
       "license": {
         "name": "MIT",
