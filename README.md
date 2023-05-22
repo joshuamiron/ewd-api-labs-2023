@@ -157,15 +157,18 @@ Some of the calls I built in duplicate, using both hardcoded and random data fro
 
 Here is an example of the Pre-request script for the Made-up Movie call:
 
+~~~Javascript
 pm.collectionVariables.set("title", pm.variables.replaceIn('{{$randomProductName}}'))
 pm.collectionVariables.set("overview",pm.variables.replaceIn('{{$randomLoremSentences}}'))
 pm.collectionVariables.set("genre", "Action")
 pm.collectionVariables.set("runtime",pm.variables.replaceIn('{{$randomInt}}'))
 pm.collectionVariables.set("releasedate", pm.variables.replaceIn('{{$randomDateFuture}}'))
 pm.collectionVariables.set("productioncompany","Netflix")
+~~~
 
 Here is the (kind of funny) resulting body:
 
+~~~Javascript
 {
     "title": "Practical Wooden Bacon",
     "overview": "Sunt fugiat placeat vel non occaecati eos. Ad minima sunt voluptate necessitatibus labore et beatae. Laboriosam non ea voluptas ex. Non alias omnis nulla adipisci qui vel. Mollitia perspiciatis in perferendis error sapiente nisi voluptatum. Unde reiciendis aperiam sit illum qui ut possimus.",
@@ -175,6 +178,7 @@ Here is the (kind of funny) resulting body:
     "productioncompany": "Netflix",
     "_id": "646ad4c4e0f4467a23c81333"
 }
+~~~
 
 ![](./images/Postman_MadeupMovie.jpg)
 
