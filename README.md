@@ -249,6 +249,8 @@ export const getGenres = async () => {
 };
   ~~~
 
+The server-side then calls TMDB and returns an array of genres back to the client-side which we map over in order to create the list displayed in the drop-down here:
+
 ![](./images/Filtering_By_Genre.png)
 
 ## Extra features
