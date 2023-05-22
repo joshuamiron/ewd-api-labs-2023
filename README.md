@@ -166,7 +166,7 @@ pm.collectionVariables.set("releasedate", pm.variables.replaceIn('{{$randomDateF
 pm.collectionVariables.set("productioncompany","Netflix")
 ~~~
 
-Here is the (kind of funny) resulting body:
+Here is the resulting body (the titles are kind of funny):
 
 ~~~Javascript
 {
