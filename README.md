@@ -273,7 +273,7 @@ Pretty much described above:
 
 I did attempt to deploy it to Vercel, but apparently Vercel doesn't natively support Express APIs and you have to do quite a bit of rework to make it serverless, so that didn't happen.
 
-However, if you want to see where it ended up, it is available here:
+However, if you want to see where it ended up, it is available here:<br>
 API: https://ewd-api-labs-2023-62hjcdgs0-joshuamiron.vercel.app/
 Front-end: https://lab-movies-app-proxied-lllzjw39v-joshuamiron.vercel.app/
 
