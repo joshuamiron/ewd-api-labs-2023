@@ -16,18 +16,6 @@ export default (dependencies) => {
     }
   };
 
-  const getAccounts = async (request, response, next) => {
-    try {
-      // Treatment
-      const accounts = await accountService.getAccounts(dependencies);
-      // Output
-      response.status(200).json(accounts);
-      console.log("getAccounts in accounts/controllers called");
-    } catch (error) {
-      response.status(400).json({message: "Failed to get accounts list"});
-    }
-  };
-
   const authenticateAccount = async (request, response, next) => {
     try {
       // Treatment
@@ -40,6 +28,18 @@ export default (dependencies) => {
     } catch (error) {
       response.status(401).json({ message: "Unauthorised" });
       console.log( "authenticateAccount in accounts/controllers called and failed" );
+    }
+  };
+
+  const getAccounts = async (request, response, next) => {
+    try {
+      // Treatment
+      const accounts = await accountService.getAccounts(dependencies);
+      // Output
+      response.status(200).json(accounts);
+      console.log("getAccounts in accounts/controllers called");
+    } catch (error) {
+      response.status(400).json({message: "Failed to get accounts list"});
     }
   };
 
