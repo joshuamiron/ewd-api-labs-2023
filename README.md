@@ -99,7 +99,7 @@ JWT_SECRET_KEY=[Your secret key - basically anything you like]
 | /api/accounts/updateplaylist/${email} | --- | --- | Add or delete a movie from a user's playlist | ---
 | /api/accounts/updatefavouritepeople/${email} | --- | --- | Add or delete a person from a user's favourites | ---
 | /api/accounts/addmadeupmovie/${email} | --- | --- | Add a made-up movie as a nested document to a user's list | ---
-| /api/accounts/addmadeupmovie/${email} | --- | --- | --- |  Delete a made-up movie from a user's list
+| /api/accounts/deletemadeupmovie/${email}/${movieid} | --- | --- | --- |  Delete a made-up movie from a user's list
 
 ### Movies
 | ROUTE |  GET | POST | PUT | DELETE
