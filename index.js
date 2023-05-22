@@ -7,7 +7,10 @@ import createPeopleRouter from './src/people/routes';
 import buildDependencies from "./src/config/dependencies";
 import db from './src/config/db';
 import errorHandler from './src/utils/ErrorHandler';
-import { serveSwaggerDocs } from './swagger.js';
+//import { serveSwaggerDocs } from './swagger.js';
+import swaggerUi from 'swagger-ui-express';
+//import swaggerDocument from './swagger.json';
+import swaggerJSDoc from 'swagger-jsdoc';
 
 
 dotenv.config();
@@ -19,8 +22,25 @@ const app = express();
 const port = process.env.PORT;
 const dependencies = buildDependencies();
 
+// Swagger options
+const options = {
+  definition: {
+    openapi: '3.0.0',
+    info: {
+      title: 'Your API',
+      version: '1.0.0',
+    },
+  },
+  // Path to the API routes
+  apis: ['./src/accounts/routes/index.js'],
+};
+
+// Initialize swagger-jsdoc
+const swaggerSpec = swaggerJSDoc(options);
+
 app.use(express.json());
-serveSwaggerDocs(app);
+
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 app.use('/api/accounts', createAccountsRouter(dependencies));
 app.use('/api/movies', createMoviesRouter(dependencies));

@@ -8,15 +8,68 @@ const createRouter = (dependencies) => {
   const accountsController = AccountsController(dependencies);
   const validationController = ValidationController(dependencies);
 
+  /**
+   * @swagger
+   * /api/accounts:
+   *   post:
+   *     summary: Create a new account
+   *     description: Creates a new user account.
+   *     parameters:
+   *       - name: firstName
+   *         in: body
+   *         description: First name of the user
+   *         required: true
+   *         type: string
+   *       - name: lastName
+   *         in: body
+   *         description: Last name of the user
+   *         required: true
+   *         type: string
+   *       - name: email
+   *         in: body
+   *         description: Email address of the user
+   *         required: true
+   *         type: string
+   *       - name: password
+   *         in: body
+   *         description: Password of the user
+   *         required: true
+   *         type: string
+   *     responses:
+   *       201:
+   *         description: Account created successfully
+   *       409:
+   *         description: Account already exists
+   */
   router.route("/").post(validationController.validateAccount, accountsController.createAccount);
 
+/**
+   * @swagger
+   * /api/accounts:
+   *   get:
+   *     summary: Get a list of accounts
+   *     description: Gets a list of all details of all accounts
+   *     responses:
+   *       200:
+   *         description: A list of accounts retrieved succesfully
+   */
   router.route("/").get(accountsController.getAccounts);
 
   // ---- Authenticate the user who is trying to log in
-  router.route("/security/token").post(accountsController.authenticateAccount);
+ router.route("/security/token").post(accountsController.authenticateAccount);
 
   // ---- Get all an account's details, including favourites and playlists, via their email address
-  router.route("/getaccount/:email").get(accountsController.getAccountByEmail);
+   /**
+   * @swagger
+   * /api/accounts/getaccount/email:
+   *   get:
+   *     summary: Get a specific account by email address
+   *     description: Gets a all details of a specific account
+   *     responses:
+   *       200:
+   *         description: The requested account successfully retrieved
+   */
+   router.route("/getaccount/:email").get(accountsController.getAccountByEmail);
 
   // ---- Add or remove favourite movies
   router.route("/updatefavourites/:email").put(accountsController.updateFavourites);
