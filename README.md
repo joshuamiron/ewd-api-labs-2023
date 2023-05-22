@@ -277,4 +277,4 @@ However, if you want to see where it ended up, it is available here:<br>
 API: https://ewd-api-labs-2023-62hjcdgs0-joshuamiron.vercel.app/<br>
 Front-end: https://lab-movies-app-proxied-lllzjw39v-joshuamiron.vercel.app/
 
-I also took at stab at Swagger, but didn't get very far.  But if you notice a swagger.json file lying around in the project it is because of that.
+I also took at stab at Swagger, but didn't get very far.  If you notice a swagger.json file lying around in the project it is because of that.
