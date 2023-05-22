@@ -17,9 +17,6 @@ const app = express();
 const port = process.env.PORT;
 
 const dependencies = buildDependencies();
-app.get("/", (req, res) => {
-  res.send("Express on Vercel");
-});
 
 app.use(express.json());
 
@@ -33,5 +30,3 @@ app.listen(port, () => {
 });
 
 app.use(errorHandler);
-
-module.exports = app;
