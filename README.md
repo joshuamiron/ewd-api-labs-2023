@@ -218,11 +218,14 @@ export default defineConfig({
 
 ~~~
 
-The Movies React app repo is available here: https://github.com/joshuamiron/labMoviesApp_proxied. (I created a second instance of it so as to preserve the work from assignment 1 unaltered.)
+The Movies React app repo is available here:
+https://github.com/joshuamiron/labMoviesApp_proxied.
+
+(I created a second instance of it so as to preserve the work from assignment 1 unaltered.)
 
 The API calls flowed from various components or pages to the client-side API to the server side routes, controllers and services.
 
-For example, the client-side component filterMoviesCard/index.jsx imports the getGenres API call in order to be able to filter the list of movies by genre like so...
+For example, the client-side component filterMoviesCard/index.jsx imports the getGenres API like so...
 
 ~~~Javascript
 import { getGenres } from "../../api/api";
