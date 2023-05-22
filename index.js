@@ -20,13 +20,13 @@ const port = process.env.PORT;
 const dependencies = buildDependencies();
 
 app.use(express.json());
+serveSwaggerDocs(app);
 
 app.use('/api/accounts', createAccountsRouter(dependencies));
 app.use('/api/movies', createMoviesRouter(dependencies));
 app.use('/api/tv', createTVShowsRouter(dependencies));
 app.use('/api/people', createPeopleRouter(dependencies));
 
-serveSwaggerDocs(app);
 
 app.listen(port, () => {
   console.info(`Server running at ${port}`);

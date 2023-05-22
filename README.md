@@ -271,10 +271,13 @@ Pretty much described above:
 
 ## Independent learning.
 
-I did attempt to deploy it to Vercel, but apparently Vercel doesn't natively support Express APIs and you have to do quite a bit of rework to make it serverless, so that didn't happen.
+I've stubbed out a start on Swagger, but didn't get very far in the documentation.  Adding manually adding comments for JSDoc is pretty laborious, and it seems prone to inaccuracy.  Seems like something should crawl the code and create the comments for you to ensure accuracy.
+
+Anyway, my Swagger URL is here:<br>
+https://app.swaggerhub.com/apis/joshuamiron/ewd-api_labs_2023/1.0.0
+
+I also attempted to deploy it to Vercel, but apparently Vercel doesn't natively support Express APIs and you have to do quite a bit of rework to make it serverless, so that didn't happen.
 
 However, if you want to see where it ended up, it is available here:<br>
 API: https://ewd-api-labs-2023-62hjcdgs0-joshuamiron.vercel.app/<br>
 Front-end: https://lab-movies-app-proxied-lllzjw39v-joshuamiron.vercel.app/
-
-I also took at stab at Swagger, but didn't get very far.  If you notice a swagger.json file lying around in the project it is because of that.
