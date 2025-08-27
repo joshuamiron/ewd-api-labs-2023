@@ -72,7 +72,7 @@ The front end is a separate project, available here: https://github.com/joshuami
 
 If you download the API project for your own use, you will need to create a .env file in the root of the project with a few things in it:
 + You will need to create a (free) TMDB developer account and get a TMDB API key, and add that key to the .env file.
-+ Since the front-end project has proxy URL of 8080 hardcoded into its vite.config.js file, you will need to set the port in the .env file to 8080 and make sure you don't have any other application running on that port.  (Or you can alter the port number in teh front-end project.)
++ Since the front-end project has proxy URL of 8080 hardcoded into its vite.config.js file, you will need to set the port in the .env file to 8080 and make sure you don't have any other application running on that port.  (Or you can alter the port number in the front-end project.)
 + For salting/hashing of passwords and the creation of tokens, you will need to add a JWT secret key.
 + You will also need to install MongoDB (per the labs), and define its URL in the .env file.
 
