@@ -10,9 +10,11 @@
   "author": "joshuamiron",
   "license": "ISC",
   "devDependencies": {
-    "babel-cli": "^6.26.0",
+    "@babel/cli": "^7.0.0",
+    "@babel/core": "^7.0.0",
+    "@babel/node": "^7.0.0",
+    "@babel/preset-env": "^7.0.0",
     "babel-eslint": "^10.1.0",
-    "babel-preset-env": "^1.7.0",
     "eslint": "^8.36.0",
     "newman": "^6.2.1",
     "newman-reporter-htmlextra": "^1.22.11",
