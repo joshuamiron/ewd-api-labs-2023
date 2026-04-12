@@ -20,7 +20,7 @@ export default (dependencies) => {
     try {
       // Treatment
       const { email, password } = request.body;
-      console.log(request.body);
+      console.log("authenticateAccount request received", { email });
       const token = await accountService.authenticateAccount( email.toLowerCase(), password, dependencies );
       // Output
       response.status(200).json({ token: `BEARER ${token}` });
@@ -50,7 +50,7 @@ export default (dependencies) => {
       const email = request.params.email;
       // Treatment
       const account = await accountService.getAccountByEmail(email, dependencies);
-      console.log(account);
+      console.log("getAccountByEmail succeeded", { id: account?.id, email: account?.email });
       // Output
       response.status(200).json(account);
     } catch (error) {
@@ -59,14 +59,14 @@ export default (dependencies) => {
   };
 
   const updateFavourites = async (request, response, next) => {
-    console.log("Request body:", request.body);
+    console.log("updateFavourites request received", { email: request.params.email, hasMovieId: request.body?.movieId !== undefined });
     try {
       // Input
       const email = request.params.email;
       // Treatment
       const { movieId } = request.body;
       const account = await accountService.updateFavourites( email, movieId, dependencies );
-      console.log("Favourite movies updated successfully:", account);
+      console.log("Favourite movies updated successfully", { id: account?.id, email: account?.email });
       // Output
       response.status(201).json(account);
     } catch (err) {
