@@ -1,5 +1,13 @@
 import axios from "axios";
 
+const validatePersonId = (id) => {
+  const idAsString = String(id);
+  if (!/^[1-9]\d*$/.test(idAsString)) {
+    throw new Error("Invalid person id");
+  }
+  return idAsString;
+};
+
 export default {
   getTrendingPeople: async (query, page) => {
     console.log("getTrendingPeople in people/services called");
@@ -39,16 +47,20 @@ export default {
 
   getPerson: async (id) => {
     console.log("getPerson in people/services called");
+    const safeId = validatePersonId(id);
     const response = await axios.get(
-      `https://api.themoviedb.org/3/person/${id}?api_key=${process.env.TMDB_KEY}`
+      `https://api.themoviedb.org/3/person/${safeId}`,
+      { params: { api_key: process.env.TMDB_KEY } }
     );
     return response.data;
   },
 
   getPersonImages: async (id) => {
     console.log("getPersonImages in people/services called");
+    const safeId = validatePersonId(id);
     const response = await axios.get(
-      `https://api.themoviedb.org/3/person/${id}/images?api_key=${process.env.TMDB_KEY}`
+      `https://api.themoviedb.org/3/person/${safeId}/images`,
+      { params: { api_key: process.env.TMDB_KEY } }
     );
     return response.data;
   },
@@ -56,8 +68,10 @@ export default {
   getPersonCredits: async (id) => {
     console.log("getPersonCredits in people/services called");
     try {
+      const safeId = validatePersonId(id);
       const response = await axios.get(
-        `https://api.themoviedb.org/3/person/${id}/movie_credits?api_key=${process.env.TMDB_KEY}`
+        `https://api.themoviedb.org/3/person/${safeId}/movie_credits`,
+        { params: { api_key: process.env.TMDB_KEY } }
       );
       return response.data;
     } catch (error) {
