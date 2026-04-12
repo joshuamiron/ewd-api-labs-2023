@@ -1,5 +1,13 @@
 import axios from "axios";
 
+const normalizeTvId = (id) => {
+  const idString = String(id);
+  if (!/^\d+$/.test(idString)) {
+    throw new Error("Invalid TV show id");
+  }
+  return String(parseInt(idString, 10));
+};
+
 export default {
   getTVShows: async (query, page) => {
     console.log("getTVShows in tv/services called");
@@ -22,16 +30,28 @@ export default {
 
   getTVShow: async (id) => {
     console.log("getTVShow in tv/services called");
+    const safeId = normalizeTvId(id);
     const response = await axios.get(
-      `https://api.themoviedb.org/3/tv/${id}?api_key=${process.env.TMDB_KEY}`
+      `https://api.themoviedb.org/3/tv/${safeId}`,
+      {
+        params: {
+          api_key: process.env.TMDB_KEY,
+        },
+      }
     );
     return response.data;
   },
 
   getTVShowImages: async (id) => {
     console.log("getTVShowImages in tv/services called");
+    const safeId = normalizeTvId(id);
     const response = await axios.get(
-      `https://api.themoviedb.org/3/tv/${id}/images?api_key=${process.env.TMDB_KEY}`
+      `https://api.themoviedb.org/3/tv/${safeId}/images`,
+      {
+        params: {
+          api_key: process.env.TMDB_KEY,
+        },
+      }
     );
     return response.data;
   },
