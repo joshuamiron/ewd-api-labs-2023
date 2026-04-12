@@ -1,5 +1,13 @@
 import axios from "axios";
 
+const normalizeMovieId = (id) => {
+  const movieId = String(id);
+  if (!/^\d+$/.test(movieId)) {
+    throw new Error("Invalid movie id");
+  }
+  return movieId;
+};
+
 export default {
 
   getMovies: async (query, page) => {
@@ -126,8 +134,9 @@ export default {
   getRecommendedMovies: async (id) => {
     console.log("getRecommendedMovies in movies/services called");
     //console.log(response.data);
+    const safeId = normalizeMovieId(id);
     const response = await axios.get(
-      `https://api.themoviedb.org/3/movie/${id}/recommendations?api_key=${process.env.TMDB_KEY}`
+      `https://api.themoviedb.org/3/movie/${safeId}/recommendations?api_key=${process.env.TMDB_KEY}`
     );
     return response.data;
   },
