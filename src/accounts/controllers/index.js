@@ -83,7 +83,7 @@ export default (dependencies) => {
       const { movieId } = request.body;
       // Treatment
       const account = await accountService.updatePlaylist( email, movieId, dependencies );
-      console.log("Playlist updated successfully:", account);
+      console.log("Playlist updated successfully", { id: account?.id, email: account?.email });
       // Output
       response.status(201).json(account);
     } catch (err) {
