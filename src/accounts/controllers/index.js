@@ -20,7 +20,7 @@ export default (dependencies) => {
     try {
       // Treatment
       const { email, password } = request.body;
-      console.log(request.body);
+      console.log("authenticateAccount request received", { email });
       const token = await accountService.authenticateAccount( email.toLowerCase(), password, dependencies );
       // Output
       response.status(200).json({ token: `BEARER ${token}` });
@@ -50,7 +50,7 @@ export default (dependencies) => {
       const email = request.params.email;
       // Treatment
       const account = await accountService.getAccountByEmail(email, dependencies);
-      console.log(account);
+      console.log("getAccountByEmail succeeded", { id: account?.id, email: account?.email });
       // Output
       response.status(200).json(account);
     } catch (error) {
@@ -59,14 +59,14 @@ export default (dependencies) => {
   };
 
   const updateFavourites = async (request, response, next) => {
-    console.log("Request body:", request.body);
+    console.log("updateFavourites request received", { email: request.params.email, hasMovieId: request.body?.movieId !== undefined });
     try {
       // Input
       const email = request.params.email;
       // Treatment
       const { movieId } = request.body;
       const account = await accountService.updateFavourites( email, movieId, dependencies );
-      console.log("Favourite movies updated successfully:", account);
+      console.log("Favourite movies updated successfully", { id: account?.id, email: account?.email });
       // Output
       response.status(201).json(account);
     } catch (err) {
@@ -83,7 +83,7 @@ export default (dependencies) => {
       const { movieId } = request.body;
       // Treatment
       const account = await accountService.updatePlaylist( email, movieId, dependencies );
-      console.log("Playlist updated successfully:", account);
+      console.log("Playlist updated successfully", { id: account?.id, email: account?.email });
       // Output
       response.status(201).json(account);
     } catch (err) {
@@ -93,14 +93,14 @@ export default (dependencies) => {
   };
 
   const updateFavouritePeople = async (request, response, next) => {
-    console.log("Request body:", request.body);
     try {
       // Input
       const email = request.params.email;
       const { person } = request.body;
+      console.log("updateFavouritePeople request received", { email, person });
       // Treatment
       const account = await accountService.updateFavouritePeople( email, person, dependencies );
-      console.log("Favourite people updated successfully:", account);
+      console.log("Favourite people updated successfully", { email: account.email, person });
       // Output
       response.status(201).json(account);
     } catch (err) {
@@ -110,14 +110,14 @@ export default (dependencies) => {
   };
 
   const addMadeUpMovie = async (request, response, next) => {
-    console.log("Controller - Request body:", request.body);
     try {
       // Input
       const email = request.params.email;
       const madeupMovieData = request.body;
+      console.log("addMadeUpMovie request received", { email, hasTitle: !!madeupMovieData?.title });
       // Treatment
       const account = await accountService.addMadeUpMovie(email, madeupMovieData, dependencies);
-      console.log("Made-up movies updated successfully:", account);
+      console.log("Made-up movies updated successfully", { email: account.email });
       const addedMovie = account.madeupmovies[account.madeupmovies.length - 1];
       // Output
       response.status(201).json(addedMovie);
@@ -128,15 +128,13 @@ export default (dependencies) => {
   };
 
    const deleteMadeUpMovie = async (request, response, next) => {
-    console.log("Request body:", request.body);
     try {
       // Input
       const { email, movieid } = request.params;
-      console.log("Controllers - deleteMadeUpMovie:", email, movieid);
-      console.log("Controllers request.params:", request.params);
+      console.log("deleteMadeUpMovie request received", { email, movieid });
       // Treatment
       const account = await accountService.deleteMadeUpMovie( email, movieid, dependencies );
-      console.log("Made-up movies deleted successfully:", account);
+      console.log("Made-up movies deleted successfully", { email: account.email, movieid });
       // Output
       response.status(201).json(account);
     } catch (err) {

@@ -103,7 +103,14 @@ export default (dependencies) => {
     const getMovieReviews = async (request, response, next) => {
         console.log("getMovieReviews in movies/controllers called");
         // Input
-        const movieId = request.params.id;
+        const rawMovieId = request.params.id;
+        if (!/^\d+$/.test(rawMovieId)) {
+            return response.status(400).json({ message: "Invalid movie id" });
+        }
+        const movieId = Number(rawMovieId);
+        if (!Number.isInteger(movieId) || movieId <= 0) {
+            return response.status(400).json({ message: "Invalid movie id" });
+        }
         // Treatment
         const movie = await moviesService.getMovieReviews(movieId, dependencies);
         // Output

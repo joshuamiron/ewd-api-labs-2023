@@ -26,6 +26,9 @@ export default (dependencies) => {
         console.log("getPerson in people/controllers called");
         // Input
         const personId = request.params.id;
+        if (typeof personId !== "string" || !/^\d+$/.test(personId)) {
+            return response.status(400).json({ message: "Invalid person id" });
+        }
         // Treatment
         const person = await peopleService.getPerson(personId, dependencies);
         // Output
@@ -35,6 +38,9 @@ export default (dependencies) => {
         console.log("getPersonImages in people/controllers called");
         // Input
         const personId = request.params.id;
+        if (typeof personId !== "string" || !/^\d+$/.test(personId)) {
+            return response.status(400).json({ message: "Invalid person id" });
+        }
         // Treatment
         const person = await peopleService.getPersonImages(personId, dependencies);
         // Output
@@ -44,6 +50,9 @@ export default (dependencies) => {
         console.log("getPersonCredits in people/controllers called");
         // Input
         const personId = request.params.id;
+        if (typeof personId !== "string" || !/^\d+$/.test(personId)) {
+            return response.status(400).json({ message: "Invalid person id" });
+        }
         // Treatment
         const person = await peopleService.getPersonCredits(personId, dependencies);
         // Output

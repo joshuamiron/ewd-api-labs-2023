@@ -27,7 +27,7 @@
     "nodemon": "^3.1.11"
   },
   "dependencies": {
-    "axios": "^0.30.2",
+    "axios": "^1.15.0",
     "bcryptjs": "^2.4.3",
     "dotenv": "^16.0.3",
     "express": "^4.22.1",
@@ -38,6 +38,7 @@
     "swagger-jsdoc": "^6.2.8",
     "swagger-ui-express": "^4.6.3",
     "uniqid": "^5.4.0",
-    "winston": "^3.8.2"
+    "winston": "^3.8.2",
+    "express-rate-limit": "^8.3.2"
   }
 }

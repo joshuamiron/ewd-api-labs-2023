@@ -1,4 +1,5 @@
 import express from "express";
+import rateLimit from "express-rate-limit";
 import AccountsController from "../controllers";
 import ValidationController from "../controllers/ValidationController";
 
@@ -7,6 +8,13 @@ const createRouter = (dependencies) => {
   // load controller with dependencies
   const accountsController = AccountsController(dependencies);
   const validationController = ValidationController(dependencies);
+
+  const authenticateAccountLimiter = rateLimit({
+    windowMs: 15 * 60 * 1000, // 15 minutes
+    max: 5, // limit each IP to 5 login attempts per window
+    standardHeaders: true,
+    legacyHeaders: false,
+  });
 
   /**
    * @swagger
@@ -56,7 +64,7 @@ const createRouter = (dependencies) => {
   router.route("/").get(accountsController.getAccounts);
 
   // ---- Authenticate the user who is trying to log in
- router.route("/security/token").post(accountsController.authenticateAccount);
+  router.route("/security/token").post(authenticateAccountLimiter, accountsController.authenticateAccount);
 
   // ---- Get all an account's details, including favourites and playlists, via their email address
    /**

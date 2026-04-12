@@ -1,5 +1,13 @@
 import axios from "axios";
 
+const normalizeMovieId = (id) => {
+  const movieId = String(id);
+  if (!/^\d+$/.test(movieId)) {
+    throw new Error("Invalid movie id");
+  }
+  return movieId;
+};
+
 export default {
 
   getMovies: async (query, page) => {
@@ -23,16 +31,18 @@ export default {
 
   getMovie: async (id) => {
     console.log("getMovie in movies/services called");
+    const safeId = normalizeMovieId(id);
     const response = await axios.get(
-      `https://api.themoviedb.org/3/movie/${id}?api_key=${process.env.TMDB_KEY}`
+      `https://api.themoviedb.org/3/movie/${safeId}?api_key=${process.env.TMDB_KEY}`
     );
     return response.data;
   },
 
   getMovieImages: async (id) => {
     console.log("getMovieImages in movies/services called");
+    const safeId = normalizeMovieId(id);
     const response = await axios.get(
-      `https://api.themoviedb.org/3/movie/${id}/images?api_key=${process.env.TMDB_KEY}`
+      `https://api.themoviedb.org/3/movie/${safeId}/images?api_key=${process.env.TMDB_KEY}`
     );
     return response.data;
   },
@@ -108,8 +118,9 @@ export default {
 
   getMovieCast: async (id) => {
     console.log("getMovieCast in movies/services called");
+    const safeId = normalizeMovieId(id);
     const response = await axios.get(
-      `https://api.themoviedb.org/3/movie/${id}/credits?api_key=${process.env.TMDB_KEY}`
+      `https://api.themoviedb.org/3/movie/${safeId}/credits?api_key=${process.env.TMDB_KEY}`
     );
     return response.data;
   },
@@ -117,8 +128,9 @@ export default {
   getSimilarMovies: async (id) => {
     console.log("getSimilarMovies in movies/services called");
     //console.log(response.data);
+    const safeId = normalizeMovieId(id);
     const response = await axios.get(
-      `https://api.themoviedb.org/3/movie/${id}/similar?api_key=${process.env.TMDB_KEY}`
+      `https://api.themoviedb.org/3/movie/${safeId}/similar?api_key=${process.env.TMDB_KEY}`
     );
     return response.data;
   },
@@ -126,8 +138,9 @@ export default {
   getRecommendedMovies: async (id) => {
     console.log("getRecommendedMovies in movies/services called");
     //console.log(response.data);
+    const safeId = normalizeMovieId(id);
     const response = await axios.get(
-      `https://api.themoviedb.org/3/movie/${id}/recommendations?api_key=${process.env.TMDB_KEY}`
+      `https://api.themoviedb.org/3/movie/${safeId}/recommendations?api_key=${process.env.TMDB_KEY}`
     );
     return response.data;
   },
@@ -139,8 +152,9 @@ export default {
   getMovieReviews: async (id) => {
     console.log(id);
     console.log("getMovieReviews in movies/services called");
+    const safeId = normalizeMovieId(id);
     const response = await axios.get(
-      `https://api.themoviedb.org/3/movie/${id}/reviews?api_key=${process.env.TMDB_KEY}`
+      `https://api.themoviedb.org/3/movie/${safeId}/reviews?api_key=${process.env.TMDB_KEY}`
     );
     return response.data;
   },
