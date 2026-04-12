@@ -24,7 +24,7 @@ export default {
   getAccountByEmail: async (email, { accountsRepository }) => {
     console.log("getAccountByEmail in accounts/services called");
     const account = await accountsRepository.getByEmail(email);
-    console.log("Services says ", account);
+    console.log("Services getAccountByEmail success", { email: account.email, id: account.id });
     return account;
   },
 
@@ -32,11 +32,11 @@ export default {
     const account = await accountsRepository.getByEmail(email);
     if (!account.favourites.includes(movieId)) {
       account.favourites.push(movieId);
-      console.log("Movie added to favourites list:", account);
+      console.log("Movie added to favourites list", { email: account.email, movieId });
     } 
     else {
       account.favourites = account.favourites.filter((id) => id !== movieId);
-      console.log("Movie removed from favourites list:", account);
+      console.log("Movie removed from favourites list", { email: account.email, movieId });
     }
     return await accountsRepository.merge(account);
   },
@@ -45,11 +45,11 @@ export default {
     const account = await accountsRepository.getByEmail(email);
     if (!account.playlist.includes(movieId)) {
       account.playlist.push(movieId);
-      console.log("Movie added to playlist:", account);
+      console.log("Movie added to playlist", { email: account.email, movieId });
     } 
     else {
       account.playlist = account.playlist.filter((id) => id !== movieId);
-      console.log("Movie removed from playlist:", account);
+      console.log("Movie removed from playlist", { email: account.email, movieId });
     }
     return await accountsRepository.merge(account);
   },
@@ -58,11 +58,11 @@ export default {
     const account = await accountsRepository.getByEmail(email);
     if (!account.favouritepeople.includes(person)) {
       account.favouritepeople.push(person);
-      console.log("Person added to favourte people list:", account);
+      console.log("Person added to favourite people list", { email: account.email, person });
     } 
     else {
       account.favouritepeople = account.favouritepeople.filter((personId) => personId !== person);
-      console.log("Person removed from favourite people list:", account);
+      console.log("Person removed from favourite people list", { email: account.email, person });
     }
     return await accountsRepository.merge(account);
   },
